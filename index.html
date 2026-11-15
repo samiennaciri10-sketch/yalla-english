@@ -711,7 +711,7 @@ function vHome(){const t=today(),l=S.log[t]||{},w=curW(),g=S.g;const h=new Date(
   <div class="tile" data-act="free"><div class="ic">🔄</div><b>مراجعة حرة</b><span>10 جمل عشوائية</span></div>
  </div>
  <div class="card muted" style="margin-top:14px">💡 قاعدة ذهبية: حاول تجاوب بالانجليزية <b>بلا ما دوز على الدارجة فراسك</b>. سمع ← فكر بالانجليزية ← جاوب. الغلط عادي، هو لي كيعلمك.</div>
- ${!getKey()?`<div class="card" style="background:var(--p2)" data-act="settings">🔑 باش يخدم Sam (الذكاء الاصطناعي)، خاصك تحط المفتاح المجاني مرة وحدة. كليكي هنا ◀</div>`:''}`}
+ `}
 
 /* ============ LESSON ============ */
 function startLesson(gi){if(gi>=TOTAL){toast('سالا البرنامج 🎓');return}if(gi%7===6){startTest(gi);return}open({type:'lesson',g:gi,i:-1,ans:'',res:null})}
@@ -851,7 +851,7 @@ function vChat(){const m=S.chat.msgs;
  return header()+`<div class="row" style="justify-content:space-between"><h2>💬 Sam</h2><button class="btn ghost sm" data-act="cnew">🔄 جديدة</button></div>
  <div class="chips">${Object.entries(MODES).map(([k,t])=>`<button class="chip ${S.chat.mode===k?'on':''}" data-mode="${k}">${t}</button>`).join('')}</div>
  <div class="muted" style="margin:6px 0">${S.chat.mode==='quiz'?'Sam غادي يسولك على الجمل لي قريتي من قبل باش يتأكد بلي ما نسيتيهمش.':S.chat.mode==='role'?'موقف من الحياة: '+esc(W[curW()].t):S.chat.mode==='free'?'هضرو على أي حاجة بغيتي.':'تمرن على الجمل ديال آخر درس.'} جاوب بالانجليزية، حتى يلا غلطتي 😉</div>
- ${!getKey()?`<div class="card" style="background:var(--p2)">🔑 Sam خاصو مفتاح مجاني (مرة وحدة). <button class="btn sm p" data-act="settings">حط المفتاح</button></div>`:''}
+ 
  <div class="chat" id="chat">${m.length?m.map(msgHTML).join(''):`<div class="card center"><div style="font-size:2.5rem">👋</div><p>Sam هو صاحبك لي كيهضر غير بالانجليزية. كيصبر عليك وكيصحح ليك بالدارجة.</p><button class="btn" data-act="cstart">بدا الهضرة</button></div>`}</div>
  <div class="compose"><textarea id="cin" class="en" placeholder="Write in English…" rows="1"></textarea>${micBtn('cin')}<button class="btn b" data-act="csend">➤</button></div>
  <div class="row"><button class="btn ghost sm" data-act="chint">💡 شنو نقول؟</button></div>`}
@@ -879,7 +879,7 @@ GOAL: ${goal}
 Phrases he learned (English = Darija):
 ${known||'(none yet)'}
 ${weak?'Phrases he often forgets (review these!):\n'+weak:''}`}
-async function chatCall(extraFirst){if(chatBusy)return;if(!getKey()){toast('حط المفتاح ديال Sam فالإعدادات');open({type:'settings'});return}
+async function chatCall(extraFirst){if(chatBusy)return;
  chatBusy=true;const msgs=S.chat.msgs;const hist=msgs.filter(x=>x.content).slice(-18).map(x=>({role:x.role,content:x.role==='assistant'?x.content+(x.tip?'\n---\n'+x.tip:''):x.content}));
  if(hist.length&&hist[0].role==='user')hist.unshift({role:'assistant',content:'Hi! 😊'});
  const input=[{role:'user',content:instr()+'\n\n(Start the conversation now with a short greeting and your first question.)'}];
@@ -887,15 +887,15 @@ async function chatCall(extraFirst){if(chatBusy)return;if(!getKey()){toast('حط
  if(input[input.length-1].role!=='user')input.push({role:'user',content:'(continue)'});
  const me={role:'assistant',content:'',tip:''};msgs.push(me);render();
  try{chatCtl=new AbortController();const r=await sample(input,{cache:false,signal:chatCtl.signal,onText:({text})=>{const [a,b]=split(text);me.content=a;me.tip=b;const els=document.querySelectorAll('.msg.sam .mt');const el=els[els.length-1];if(el)el.textContent=a}});
-  const [a,b]=split(r.text||'');me.content=a||'…';me.tip=b}catch(e){me.content='';me.tip=e&&e.code==='rate_limited'?'⏳ Sam عيان شوية، عاود من بعد دقيقة.':e&&e.code==='bad_key'?'🔑 المفتاح ماشي صحيح. بدلو فالإعدادات.':e&&e.code==='no_key'?'🔑 حط المفتاح فالإعدادات.':'📶 تأكد من الانترنت وعاود.'}
+  const [a,b]=split(r.text||'');me.content=a||'…';me.tip=b}catch(e){me.content='';me.tip=e&&e.code==='rate_limited'?'⏳ Sam عيان شوية، عاود من بعد دقيقة.':'📶 Sam ما جاوبش. تأكد من الانترنت وعاود من بعد شوية.'}
  if(S.chat.msgs.length>40)S.chat.msgs=S.chat.msgs.slice(-40);chatBusy=false;save();render()}
 function split(t){const i=t.indexOf('---');return i<0?[t.trim(),'']:[t.slice(0,i).trim(),t.slice(i+3).trim()]}
 function chatSend(){const el=$('#cin');const t=(el.value||'').trim();if(!t||chatBusy)return;S.chat.msgs.push({role:'user',content:t});S.chat.n=(S.chat.n||0)+1;el.value='';S.xp+=2;if(S.chat.msgs.filter(m=>m.role==='user').length>=1){const l=lg();l.cm=(l.cm||0)+1;if(l.cm>=5&&!l.c){l.c=1;S.xp+=10;toast('💬 هضرة اليوم ✓ (+10 ⭐)')}}save();chatCall()}
-async function chatHint(){if(!getKey()||chatBusy)return;const last=S.chat.msgs.filter(m=>m.role==='assistant').pop();if(!last){toast('بدا الهضرة قبل');return}
+async function chatHint(){if(chatBusy)return;const last=S.chat.msgs.filter(m=>m.role==='assistant').pop();if(!last){toast('بدا الهضرة قبل');return}
  const tip={role:'assistant',content:'',tip:'💡 كنفكر…'};S.chat.msgs.push(tip);render();
  try{const r=await sample(`A Moroccan English learner (level ${LEVELS[curW()]}) must reply to: "${last.content}". Give 2 very simple possible English replies at his level. Format exactly, one per line: "<English reply> — <meaning in Moroccan Darija, Arabic script>". Nothing else.`,{modelTier:'quick',cache:false});
   S.chat.msgs.pop();S.chat.msgs.push({role:'assistant',content:'',tip:'💡 تقدر تقول:\n'+r.text.trim(),hint:true})}catch(e){S.chat.msgs.pop();toast('عاود من بعد')}render()}
-async function translate(i){const x=S.chat.msgs[i];if(!getKey()||!x||x.tr)return;x.tr='…';render();try{const r=await sample(`Translate into Moroccan Darija written in Arabic script. Reply with the translation only:\n${x.content}`,{modelTier:'quick'});x.tr=r.text.trim()}catch(e){x.tr=''}save();render()}
+async function translate(i){const x=S.chat.msgs[i];if(!x||x.tr)return;x.tr='…';render();try{const r=await sample(`Translate into Moroccan Darija written in Arabic script. Reply with the translation only:\n${x.content}`,{modelTier:'quick'});x.tr=r.text.trim()}catch(e){x.tr=''}save();render()}
 
 /* ============ WATCH ============ */
 function vWatch(){const w=curW();return header()+`<h2>🎬 فرجة على قد النيفو ديالك</h2>
@@ -918,11 +918,13 @@ function vPlan(){const w=curW();if(openW===null)openW=w;
  <p class="muted center">تقدر تحل أي درس باش تراجعو. التقدم ديالك كيتسجل أوتوماتيكيا فالتيليفون.</p>
  <button class="btn full ghost" data-act="settings">⚙️ الإعدادات (Sam، النسخة الاحتياطية)</button>`}
 
-function vSettings(){const v=view;return backBar('⚙️ الإعدادات')+`<div class="card"><h3>🔑 Sam — الذكاء الاصطناعي</h3>
- <p>Sam كيخدم بـ Google Gemini. المفتاح <b>مجاني</b> وما خاصوش كارط بنكية. كيتحفظ غير فالتيليفون ديالك.</p>
+function vSettings(){const v=view;return backBar('⚙️ الإعدادات')+`<div class="card"><h3>🤖 Sam — الذكاء الاصطناعي</h3>
+ <p>✅ Sam خدام <b>بلا حساب وبلا مفتاح</b>. ما خاصك دير والو.</p>
+ <details><summary class="muted">اختياري: يلا بغيتي Sam يولي أسرع وأذكى (مفتاح Google)</summary>
+ <p class="muted">إلا عندك Gmail، تقدر تزيد مفتاح مجاني. ماشي ضروري.</p>
  <ol><li>حل <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a> ودخل بحساب Gmail ديالك.</li><li>كليكي على <b class="en">Create API key</b> وكوبي المفتاح.</li><li>لصقو هنا وكليكي «سجل».</li></ol>
  <input type="text" id="key" class="en" placeholder="AIza…" value="${esc(getKey())}" autocomplete="off">
- <button class="btn full p" style="margin-top:10px" data-act="savekey">سجل وجرب</button>${v.msg?`<div class="fb ok" style="background:var(--b2);color:var(--ink)">${esc(v.msg)}</div>`:''}</div>
+ <button class="btn full p" style="margin-top:10px" data-act="savekey">سجل وجرب</button></details>${v.msg?`<div class="fb ok" style="background:var(--b2);color:var(--ink)">${esc(v.msg)}</div>`:''}</div>
  <div class="card"><h3>💾 النسخة الاحتياطية</h3><p class="muted">التقدم ديالك محفوظ فالتيليفون. يلا بغيتي تبدل التيليفون، كوبي النسخة ورجعها فالجديد.</p>
  <button class="btn ghost full" data-act="backup">📋 كوبي النسخة</button><textarea id="bk" class="en" rows="3" style="margin-top:8px" placeholder="لصق النسخة هنا باش ترجعها"></textarea><button class="btn ghost full" style="margin-top:8px" data-act="restore">♻️ رجع النسخة</button></div>
  <div class="card muted">🎤 يلا الميكرو ما خدامش: الإعدادات ← التطبيقات ← Yalla English ← الأذونات ← الميكرو ← سمح.<br>🔊 يلا الصوت ما خدامش: تأكد بلي «Google Speech Services» مثبت ومفعّل.</div>`}
@@ -982,7 +984,7 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-tab],[data
  case 'place':startPlace(Math.floor(Math.min(S.g,TOTAL-1)/7));break;
  case 'noplace':S.placed=1;save();render();break;
  case 'settings':open({type:'settings'});break;
- case 'savekey':{const k=($('#key').value||'').trim();try{localStorage.setItem('yalla-gemini-key',k);localStorage.removeItem('yalla-model')}catch(e){}v&&(v.msg='⏳ كنجرب…');render();gemini('Say only: OK').then(()=>{view.msg='✅ خدام! Sam واجد يهضر معاك.';render()}).catch(e=>{view.msg=e&&e.code==='bad_key'?'❌ المفتاح ماشي صحيح':e&&e.code==='rate_limited'?'⏳ بزاف ديال الطلبات، عاود من بعد':'📶 ما قدرتش نتأكد، شوف الانترنت';render()});break}
+ case 'savekey':{const k=($('#key').value||'').trim();try{localStorage.setItem('yalla-gemini-key',k);localStorage.removeItem('yalla-model')}catch(e){}v&&(v.msg='⏳ كنجرب…');render();viaGemini('Say only: OK').then(()=>{view.msg='✅ خدام! Sam واجد يهضر معاك.';render()}).catch(e=>{view.msg=e&&e.code==='bad_key'?'❌ المفتاح ماشي صحيح':e&&e.code==='rate_limited'?'⏳ بزاف ديال الطلبات، عاود من بعد':'📶 ما قدرتش نتأكد، شوف الانترنت';render()});break}
  case 'backup':{const t=JSON.stringify(S);navigator.clipboard.writeText(t).then(()=>toast('✅ تكوبيات! حطها فشي بلاصة آمنة')).catch(()=>{$('#bk').value=t;$('#bk').select()});break}
  case 'restore':{try{const r=JSON.parse($('#bk').value);if(r&&r.v===1){S=Object.assign(fresh(),r);save();toast('✅ رجعات النسخة');go('home')}else toast('❌ النسخة ماشي صحيحة')}catch(e){toast('❌ النسخة ماشي صحيحة')}break}
  case 'csend':chatSend();break;
@@ -1012,20 +1014,27 @@ try{speechSynthesis.getVoices();speechSynthesis.onvoiceschanged=()=>speechSynthe
 // --- AI (Sam) through Google Gemini, free key stored only on this phone ---
 const MODELS=['gemini-flash-latest','gemini-3.5-flash','gemini-2.5-flash','gemini-flash-lite-latest'];
 function getKey(){try{return localStorage.getItem('yalla-gemini-key')||''}catch(e){return ''}}
-async function gemini(input,opts){const key=getKey();if(!key)throw {code:'no_key'};
- let contents;if(typeof input==='string')contents=[{role:'user',parts:[{text:input}]}];else contents=input.map(m=>({role:m.role==='assistant'?'model':'user',parts:[{text:m.content}]}));
+function toMsgs(input){return typeof input==='string'?[{role:'user',content:input}]:input.map(m=>({role:m.role==='assistant'?'assistant':'user',content:m.content}))}
+async function viaGemini(input,opts){const key=getKey();if(!key)throw {code:'skip'};
+ const contents=toMsgs(input).map(m=>({role:m.role==='assistant'?'model':'user',parts:[{text:m.content}]}));
  let order=MODELS.slice();const ok=localStorage.getItem('yalla-model');if(ok)order=[ok,...order.filter(m=>m!==ok)];
- let lastErr=null;
- for(const m of order){try{const r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+m+':generateContent',{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':key},body:JSON.stringify({contents}),signal:opts&&opts.signal});
-  if(r.status===404||r.status===400&&!(await r.clone().text()).includes('API key')){lastErr={code:'model'};continue}
-  if(r.status===429)throw {code:'rate_limited'};
-  if(r.status===400||r.status===401||r.status===403)throw {code:'bad_key'};
-  if(!r.ok){lastErr={code:'net'};continue}
-  const j=await r.json();const text=(j.candidates&&j.candidates[0]&&j.candidates[0].content&&j.candidates[0].content.parts||[]).map(p=>p.text||'').join('');
-  try{localStorage.setItem('yalla-model',m)}catch(e){}
-  opts&&opts.onText&&opts.onText({text});return {text}}
-  catch(e){if(e&&e.code&&e.code!=='model'&&e.code!=='net')throw e;if(e&&e.name==='AbortError')throw e;lastErr=e&&e.code?e:{code:'net'}}}
- throw lastErr||{code:'net'}}
+ for(const m of order){const r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+m+':generateContent',{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':key},body:JSON.stringify({contents}),signal:opts&&opts.signal});
+  if(r.status===404)continue;if(r.status===429)throw {code:'rate_limited'};if(r.status===400||r.status===401||r.status===403)throw {code:'bad_key'};if(!r.ok)throw {code:'net'};
+  const j=await r.json();const text=((j.candidates&&j.candidates[0]&&j.candidates[0].content&&j.candidates[0].content.parts)||[]).map(p=>p.text||'').join('');
+  try{localStorage.setItem('yalla-model',m)}catch(e){}if(!text)throw {code:'net'};return text}
+ throw {code:'net'}}
+async function viaOpenAI(url,headers,model,input,opts){const r=await fetch(url,{method:'POST',headers:Object.assign({'Content-Type':'application/json'},headers),body:JSON.stringify({model,messages:toMsgs(input)}),signal:opts&&opts.signal});
+ if(r.status===429)throw {code:'rate_limited'};if(!r.ok)throw {code:'net'};const j=await r.json();const t=j&&j.choices&&j.choices[0]&&j.choices[0].message&&j.choices[0].message.content;if(!t)throw {code:'net'};return String(t)}
+// Free providers that need NO account and NO key. Tried in order; the first that answers wins.
+const FREE=[
+ (i,o)=>viaOpenAI('https://api.llm7.io/v1/chat/completions',{'Authorization':'Bearer unused'},'default',i,o),
+ (i,o)=>viaOpenAI('https://text.pollinations.ai/openai',{},'openai',i,o)];
+async function gemini(input,opts){let last=null;
+ const chain=[viaGemini,...FREE];let pref=+(localStorage.getItem('yalla-prov')||0);
+ const idx=[...chain.keys()];if(pref>0&&pref<chain.length){idx.splice(idx.indexOf(pref),1);idx.splice(1,0,pref)}
+ for(const k of idx){try{const text=await chain[k](input,opts);if(k>0)try{localStorage.setItem('yalla-prov',k)}catch(e){};opts&&opts.onText&&opts.onText({text});return {text}}
+  catch(e){if(e&&e.name==='AbortError')throw e;if(e&&e.code==='bad_key'){last=e;continue}if(e&&e.code!=='skip')last=e&&e.code?e:{code:'net'}}}
+ throw last||{code:'net'}}
 sample=gemini;
 try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
 if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}))}
