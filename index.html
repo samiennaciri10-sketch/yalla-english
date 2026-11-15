@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yalla English</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#FF6B35">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@400;600;800&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FFF7EC;--card:#fff;--ink:#22223B;--muted:#77798F;--o:#FF6B35;--o2:#FFE3D6;--g:#22B573;--g2:#DDF6EA;--b:#3A86FF;--b2:#E1ECFF;--p:#8338EC;--p2:#EFE4FF;--r:#EF476F;--r2:#FFE1E8;--y:#FFBE0B;--y2:#FFF3CC;--line:#EFE6DA}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:'Baloo Bhaijaan 2','Nunito',system-ui,sans-serif;font-size:17px;line-height:1.55}
+.en{direction:ltr;unicode-bidi:isolate;font-family:'Nunito',system-ui,sans-serif}
+#app{max-width:560px;margin:0 auto;padding:14px 14px 96px}
+h1,h2,h3{margin:.2em 0;line-height:1.25}
+h2{font-size:1.35rem}h3{font-size:1.1rem}
+.top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
+.logo{font-weight:800;font-size:1.3rem}.logo b{color:var(--o)}
+.pills{display:flex;gap:6px}
+.pill{background:var(--card);border:2px solid var(--line);border-radius:99px;padding:2px 10px;font-weight:800;font-size:.95rem;white-space:nowrap}
+.card{background:var(--card);border:2px solid var(--line);border-radius:20px;padding:14px;margin:10px 0;box-shadow:0 3px 0 var(--line)}
+.card.hl{border-color:var(--o);box-shadow:0 3px 0 var(--o)}
+.muted{color:var(--muted);font-size:.92rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:0;border-radius:14px;padding:11px 16px;font:inherit;font-weight:800;cursor:pointer;background:var(--o);color:#fff;box-shadow:0 4px 0 #C94B1C;transition:transform .05s}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 #C94B1C}
+.btn.g{background:var(--g);box-shadow:0 4px 0 #168553}.btn.b{background:var(--b);box-shadow:0 4px 0 #1E5FC7}.btn.p{background:var(--p);box-shadow:0 4px 0 #5A1FB0}
+.btn.ghost{background:var(--card);color:var(--ink);border:2px solid var(--line);box-shadow:0 3px 0 var(--line)}
+.btn.sm{padding:6px 11px;font-size:.9rem;border-radius:11px}
+.btn.full{width:100%}
+.btn[disabled]{opacity:.5;pointer-events:none}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tile{background:var(--card);border:2px solid var(--line);border-radius:18px;padding:12px;cursor:pointer;box-shadow:0 3px 0 var(--line);text-align:center}
+.tile .ic{font-size:2rem}.tile b{display:block}.tile span{font-size:.82rem;color:var(--muted)}
+.step{display:flex;gap:12px;align-items:center;padding:10px;border-radius:14px;border:2px solid var(--line);margin:8px 0;cursor:pointer;background:#fff}
+.step .ic{font-size:1.7rem;width:42px;text-align:center}
+.step .tx{flex:1}.step .tx b{display:block}
+.step.done{background:var(--g2);border-color:#A8E6C9}
+.step .ck{font-size:1.4rem}
+.bar{height:12px;background:var(--line);border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--y),var(--o));border-radius:99px}
+.phrase{border:2px solid var(--line);border-radius:16px;padding:12px;margin:10px 0;background:#fff}
+.phrase .e{font-size:1.25rem;font-weight:800}
+.phrase .pr{color:var(--p);font-size:.95rem}
+.phrase .a{color:var(--muted)}
+.ib{border:0;background:var(--b2);color:var(--b);border-radius:10px;padding:5px 9px;font:inherit;font-size:.88rem;font-weight:800;cursor:pointer;text-decoration:none;display:inline-flex;gap:4px;align-items:center}
+.ib.v{background:var(--r2);color:var(--r)}.ib.m{background:var(--p2);color:var(--p)}
+input[type=text],textarea{width:100%;font:inherit;padding:11px 13px;border-radius:14px;border:2px solid var(--line);background:#fff;color:var(--ink);outline:none}
+input[type=text]:focus,textarea:focus{border-color:var(--b)}
+.fb{border-radius:14px;padding:10px 12px;margin-top:10px;font-weight:600}
+.fb.ok{background:var(--g2);color:#0F6B42}.fb.close{background:var(--y2);color:#7A5A00}.fb.no{background:var(--r2);color:#9B1C3B}
+.opt{display:block;width:100%;text-align:start;margin:8px 0;padding:12px 14px;border-radius:14px;border:2px solid var(--line);background:#fff;font:inherit;font-weight:700;cursor:pointer;box-shadow:0 3px 0 var(--line);color:var(--ink)}
+.opt.right{background:var(--g2);border-color:var(--g)}.opt.wrong{background:var(--r2);border-color:var(--r)}
+.big{font-size:1.5rem;font-weight:800;text-align:center;margin:10px 0}
+.center{text-align:center}
+nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:2px solid var(--line);display:flex;justify-content:center;padding:6px 6px calc(6px + env(safe-area-inset-bottom));z-index:9}
+nav .in{display:flex;max-width:560px;width:100%}
+nav button{flex:1;border:0;background:none;font:inherit;font-size:.78rem;font-weight:800;color:var(--muted);padding:4px;cursor:pointer;border-radius:12px}
+nav button .ic{display:block;font-size:1.4rem}
+nav button.on{color:var(--o);background:var(--o2)}
+.chat{display:flex;flex-direction:column;gap:8px;min-height:200px}
+.msg{max-width:86%;padding:10px 13px;border-radius:18px;white-space:pre-wrap;word-wrap:break-word}
+.msg.sam{align-self:flex-start;background:#fff;border:2px solid var(--line)}
+html[dir=rtl] .msg.sam{align-self:flex-end}
+html[dir=rtl] .msg.me{align-self:flex-start}
+.msg.me{background:var(--b);color:#fff}
+.msg.tip{background:var(--y2);border:2px dashed var(--y);font-size:.95rem;max-width:92%}
+.msg .tools{margin-top:6px;display:flex;gap:6px;flex-wrap:wrap}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px}
+.chip{border:2px solid var(--line);background:#fff;border-radius:99px;padding:5px 12px;font:inherit;font-weight:800;font-size:.9rem;white-space:nowrap;cursor:pointer;color:var(--ink)}
+.chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.compose{position:sticky;bottom:74px;background:var(--bg);padding:8px 0;display:flex;gap:6px;align-items:flex-end}
+.compose textarea{min-height:46px;max-height:120px;resize:none}
+.wk{border:2px solid var(--line);border-radius:16px;margin:8px 0;background:#fff;overflow:hidden}
+.wk>.hd{padding:11px 13px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;font-weight:800}
+.wk .bd{padding:0 13px 12px}
+.ls{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px dashed var(--line);cursor:pointer}
+.ls:last-child{border:0}
+.word{display:inline-block;margin:4px;padding:8px 12px;border-radius:12px;border:2px solid var(--line);background:#fff;font-family:'Nunito';font-weight:800;cursor:pointer;box-shadow:0 3px 0 var(--line);direction:ltr}
+.word.used{opacity:.25;pointer-events:none}
+.slot{min-height:56px;border:2px dashed var(--b);border-radius:14px;padding:6px;direction:ltr;text-align:left;background:var(--b2)}
+.timer{font-size:2rem;font-weight:800;color:var(--o)}
+.badge{display:inline-block;background:var(--p2);color:var(--p);border-radius:99px;padding:1px 9px;font-size:.8rem;font-weight:800}
+.badge.g{background:var(--g2);color:var(--g)}.badge.o{background:var(--o2);color:var(--o)}
+.sec{font-weight:800;margin:18px 4px 4px;color:var(--muted);font-size:.95rem}
+.toast{position:fixed;top:14px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:9px 16px;border-radius:99px;font-weight:800;z-index:20;opacity:0;transition:opacity .3s;pointer-events:none}
+.toast.on{opacity:1}
+.hide{display:none!important}
+a{color:var(--b)}
+.pulse{animation:pl 1.2s infinite}@keyframes pl{50%{opacity:.4}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<nav><div class="in">
+<button data-tab="home" class="on"><span class="ic">🏠</span>اليوم</button>
+<button data-tab="play"><span class="ic">🎮</span>لعب</button>
+<button data-tab="chat"><span class="ic">💬</span>Sam</button>
+<button data-tab="watch"><span class="ic">🎬</span>فرجة</button>
+<button data-tab="plan"><span class="ic">🗺️</span>البرنامج</button>
+</div></nav>
+<div class="toast" id="toast"></div>
+<script>
+/* ============ CONTENT ============ */
+// كل سيمانة: t عنوان، g الهدف، sc سيناريو للهضرة مع Sam، pr نطق السيمانة، v فيديوهات، d ستة دروس (السطر الأول: العنوان|الشرح، ومن بعد: English|الدارجة|النطق)
+const W=[
+{t:"سلام وتعرّف براسك",g:"تسلّم، تعرّف براسك، وتسوّل الآخر عليه",sc:"You meet him for the first time at a café in Casablanca. Greet him, ask his name, where he is from, his age and his job.",
+pr:["حرف P ماشي B","فالدارجة ما كايناش P، ولكن فالانجليزية مهمة بزاف. P كتخرج بنفخة صغيرة: حط يدك قدام فمك وحس بالهوا.",["please","pen","people","park","Pepsi"]],
+v:[["Peppa Pig (English)","Peppa Pig full episodes English","جمل قصار وبطيئة، مزيانة للبداية"],["Easy English – street interviews","Easy English street interview beginners greetings","ناس حقيقيين فالزنقة، مع ترجمة"],["Greetings dialogues","English conversation for beginners greetings introduce yourself","حوارات بسيطة بزاف"]],
+d:[
+`التحية|Hi و Hello بجوج = سلام. How are you? هو أول سؤال غيسولوك، والجواب الساهل: I'm fine.
+Hi! / Hello!|سلام!|هاي! / هالو!
+Good morning!|صباح الخير!|گود مورنينگ!
+How are you?|كيداير؟ / لاباس؟|هاو آر يو؟
+I'm fine, thank you. And you?|بخير، شكرا. ونتا؟|آيم فاين، ثانك يو. أند يو؟`,
+`السمية|My name is = سميتي. ملي كتعرّف على شي حد جديد، ديما زيد: Nice to meet you.
+What's your name?|شنو سميتك؟|وَتس يور نيم؟
+My name is Sami.|سميتي سامي.|ماي نيم إز سامي.
+Nice to meet you.|متشرفين.|نايس تو ميت يو.
+Nice to meet you too.|حتى انا متشرف.|نايس تو ميت يو تو.`,
+`منين نتا؟|from = من. I'm from باش تقول منين نتا، و I live in باش تقول فين ساكن.
+Where are you from?|منين نتا؟|وير آر يو فروم؟
+I'm from Morocco.|انا من المغرب.|آيم فروم موروكو.
+I live in Casablanca.|كنسكن فكازا.|آي ليڤ إن كازابلانكا.
+What about you?|ونتا؟|وَت أباوت يو؟`,
+`العمر والخدمة|فالانجليزية العمر كنقولوه ب I'm (انا) ماشي ب «عندي»: I'm 25 = عندي 25 عام.
+How old are you?|شحال فعمرك؟|هاو أولد آر يو؟
+I'm 25 years old.|عندي 25 عام.|آيم تونتي فايڤ ييرز أولد.
+What do you do?|شنو كتخدم؟|وَت دو يو دو؟
+I'm a student.|انا طالب.|آيم أ ستيودنت.`,
+`كلمات الأدب|كلمات صغار ولكن كيحلّو ليك جميع البيبان 😄
+Please.|عافاك.|پليز.
+Thank you very much.|شكرا بزاف.|ثانك يو ڤيري متش.
+You're welcome.|بلا جميل / مرحبا.|يور ويلكم.
+Excuse me.|سمح ليا (باش تنادي على شي حد).|إكسكيوز مي.`,
+`التوديع|ملي كتسالي الهضرة ما تمشيش ساكت 😄 قول وحدة من هادو.
+See you later.|نتلاقاو من بعد.|سي يو ليتر.
+See you tomorrow.|نتلاقاو غدا.|سي يو تومورو.
+Have a nice day!|نهارك زوين!|هاڤ أ نايس داي!
+Bye! Take care.|بسلامة! تهلا فراسك.|باي! تيك كير.`]},
+{t:"ملي ما تفهمش + am/is/are",g:"ما تبقاش تحبس: تطلب التكرار، وتستعمل am / is / are",sc:"He is a tourist helper in Marrakech. Speak a little fast sometimes so he practices asking you to repeat or slow down. Use am/is/are.",
+pr:["حرف V ماشي F","V كتخرج بحال F ولكن مع الصوت: حط سنانك الفوقانيين على شفتك التحتانية وخلي الحلق يزنزن.",["very","have","live","video","seven"]],
+v:[["Peppa Pig (English)","Peppa Pig English episodes","كمل مع Peppa، حاول تفهم بلا ترجمة"],["Extr@ English – Ep 1","Extr@ English episode 1","سيتكوم مصاوب للناس لي كيتعلمو، مضحك وبطيء"],["Asking to repeat","how to ask someone to repeat in English beginners","كيفاش تقول ما فهمتش بأدب"]],
+d:[
+`عاود عافاك!|أهم قاعدة فالكومونيكاسيون: ملي ما تفهمش، ما تسكتش! طلب يعاود.
+Sorry?|عفاك؟ (ما سمعتش مزيان)|سوري؟
+Can you repeat, please?|تقدر تعاود عافاك؟|كان يو ريپيت، پليز؟
+Slowly, please.|بشوية عافاك.|سلولي، پليز.`,
+`ما فهمتش|باش تسول على معنى كلمة ولا كيفاش تقول شي حاجة.
+I don't understand.|ما فهمتش.|آي دونت أندرستاند.
+What does "busy" mean?|شنو معنى «busy»؟|وَت دَز بيزي مين؟
+How do you say "bread" in English?|كيفاش كتقول «خبز» بالانجليزية؟|هاو دو يو ساي بريد إن إنگليش؟`,
+`am / is / are|I ← am — he/she/it ← is — you/we/they ← are. هادي القاعدة لي غتبقى معاك ديما!
+I am tired.|انا عيان.|آي آم تايرد.
+You are right.|عندك الصح.|يو آر رايت.
+He is my friend.|هو صاحبي.|هي إز ماي فريند.
+She is busy.|هي مشغولة.|شي إز بيزي.`,
+`we / they / it|it كنستعملوها للحوايج وللجو: It is cold = البرد.
+We are ready.|حنا واجدين.|وي آر ريدي.
+They are at home.|هوما فالدار.|ذاي آر أت هوم.
+It is cold today.|البرد اليوم.|إت إز كولد توداي.`,
+`السؤال والنفي|not = ماشي. باش تسول: قدّم am/is/are: You are ← Are you?
+I'm not sure.|ما متأكدش.|آيم نوت شور.
+Are you okay?|واش نتا لاباس؟|آر يو أوكي؟
+Is it far?|واش بعيد؟|إز إت فار؟
+Yes, it is. / No, it isn't.|اه، بعيد. / لا، ماشي بعيد.|يس، إت إز. / نو، إت إزنت.`,
+`قولها بلا حشمة|هاد الجمل كيخليو الناس يهضرو معاك بشوية ويعاونوك.
+My English is not very good.|الانجليزية ديالي ماشي مزيانة بزاف.|ماي إنگليش إز نوت ڤيري گود.
+I'm learning English.|كنتعلم الانجليزية.|آيم ليرنينگ إنگليش.
+Can you help me?|تقدر تعاوني؟|كان يو هيلپ مي؟`]},
+{t:"الأسئلة: What, Where, When…",g:"تسوّل أي سؤال بسيط وتفهم الجواب",sc:"Play a curious new neighbor. Ask him many simple What/Where/When/Who/How/Why questions and encourage him to ask you questions too.",
+pr:["TH بجوج أصوات","think = ث (بحال ثلاثة)، this = ذ (بحال ذهب). خرّج طرف لسانك شوية بين سنانك.",["think","thank you","three","this","mother"]],
+v:[["Extr@ English","Extr@ English episode 2","كمل الحلقات بالترتيب"],["Easy English – questions","Easy English street interview what is your favorite","شوف كيفاش الناس كيجاوبو على الأسئلة"],["WH questions","WH questions English conversation beginners","أمثلة بسيطة"]],
+d:[
+`What = شنو|What كتجي فالأول ديال السؤال.
+What is this?|شنو هادا؟|وَت إز ذيس؟
+What time is it?|شحال فالساعة؟|وَت تايم إز إت؟
+What do you want?|شنو بغيتي؟|وَت دو يو وونت؟`,
+`Where = فين|باش تسول على البلايص.
+Where is the bathroom?|فين الطواليت؟|وير إز ذا باثروم؟
+Where do you live?|فين كتسكن؟|وير دو يو ليڤ؟
+Where are you going?|فين غادي؟|وير آر يو گوينگ؟`,
+`When = فوقاش|When ولا What time باش تسول على الوقت.
+When is the meeting?|فوقاش الاجتماع؟|وين إز ذا ميتينگ؟
+What time do you finish work?|فوقاش كتسالي الخدمة؟|وَت تايم دو يو فينيش ورك؟
+See you at five.|نتلاقاو مع الخمسة.|سي يو أت فايڤ.`,
+`Who = شكون / Which = شمن|Which ملي كاين اختيار بين حوايج.
+Who is that?|شكون هداك؟|هو إز ذات؟
+Who is your best friend?|شكون أحسن صاحب عندك؟|هو إز يور بيست فريند؟
+Which one do you like?|شمن وحدة عجباتك؟|ويتش وان دو يو لايك؟`,
+`How = كيفاش / How much = بشحال|How many للحوايج لي كيتحسبو.
+How much is it?|بشحال؟|هاو متش إز إت؟
+How many brothers do you have?|شحال عندك من خو؟|هاو ميني براذرز دو يو هاڤ؟
+How do I get there?|كيفاش نوصل لتما؟|هاو دو آي گيت ذير؟`,
+`Why = علاش / Because = حيت|سول علاش، وجاوب بحيت.
+Why?|علاش؟|واي؟
+Why are you sad?|علاش نتا حزين؟|واي آر يو ساد؟
+Because I'm tired.|حيت انا عيان.|بيكوز آيم تايرد.`]},
+{t:"النهار ديالي (Present Simple)",g:"تحكي على الروتين ديالك وشنو كيعجبك",sc:"Chat as a new friend about daily routines: what time he wakes up, work, food, hobbies, what he likes and doesn't like.",
+pr:["S فالآخر: s ولا z","works = سْ، lives = زْ. ملي الفعل كيسالي بصوت (v, n, y…) كتولي z.",["works","lives","plays","likes","goes"]],
+v:[["Extr@ English","Extr@ English episode 3","سيتكوم الطلاب"],["Daily routine","daily routine in English for beginners","شوف شي واحد كيحكي نهارو"],["Peppa Pig – a day","Peppa Pig English morning","استمتع وحاول تفهم الأفعال"]],
+d:[
+`الصباح ديالي|Present Simple = الحوايج لي كتديرهم ديما. I + الفعل بلا تغيير.
+I wake up at seven.|كنفيق مع السبعة.|آي ويك أپ أت سيڤن.
+I have breakfast.|كنفطر.|آي هاڤ بريكفاست.
+I take a shower.|كندوش.|آي تيك أ شاور.`,
+`الخدمة|by bus = فالطوبيس، by car = فالطوموبيل.
+I go to work by bus.|كنمشي للخدمة فالطوبيس.|آي گو تو ورك باي باص.
+I start at nine.|كنبدا مع التسعة.|آي ستارت أت ناين.
+I come back home at six.|كنرجع للدار مع الستة.|آي كام باك هوم أت سيكس.`,
+`شنو كيعجبك|like = كيعجبني، love = كنموت عليه، don't like = ما كيعجبنيش.
+I like football.|كتعجبني الكورة.|آي لايك فوتبول.
+I love coffee.|كنموت على القهوة.|آي لاڤ كوفي.
+I don't like waiting.|ما كيعجبنيش نتسنا.|آي دونت لايك ويتينگ.`,
+`هو / هي + s|مع he / she / it كنزيدو s للفعل: I work ← He works.
+He works in a bank.|هو كيخدم فبنكة.|هي وركس إن أ بانك.
+She lives with her family.|هي ساكنة مع عائلتها.|شي ليڤز ويذ هير فاميلي.
+My brother plays video games.|خويا كيلعب الألعاب.|ماي براذر پلايز ڤيديو گيمز.`,
+`السؤال ب Do / Does|Do you…? = واش نتا…؟ — Does he/she…? = واش هو/هي…؟
+Do you like music?|واش كتعجبك الموسيقى؟|دو يو لايك ميوزيك؟
+Yes, I do. / No, I don't.|اه. / لا.|يس، آي دو. / نو، آي دونت.
+Does she speak English?|واش هي كتهضر الانجليزية؟|دَز شي سپيك إنگليش؟`,
+`ديما / بعض المرات / عمرني|always ديما، sometimes بعض المرات، never عمرني.
+I always drink tea.|ديما كنشرب أتاي.|آي أولويز درينك تي.
+I sometimes go to the gym.|بعض المرات كنمشي للصالة.|آي سامتايمز گو تو ذا جيم.
+I never smoke.|عمرني كنكمي.|آي نيڤر سموك.
+How often do you go out?|كل شحال كتخرج؟|هاو أوفن دو يو گو آوت؟`]},
+{t:"القهوة، الريسطو والحانوت",g:"تطلب، تشري وتخلّص بلا مشاكل",sc:"You are a friendly waiter in a London café, then a shop assistant. He orders food and drinks, asks prices and pays.",
+pr:["الحروف الساكتة","بزاف ديال الكلمات فيها حروف ما كتنطقش: know (نو)، write (رايت)، hour (آوَر).",["know","write","hour","listen","half"]],
+v:[["Extr@ English","Extr@ English episode 4","كمل"],["Ordering in a café","ordering food in English restaurant conversation","حوار فالريسطو"],["Bluey (English)","Bluey full episode English","كرتون عائلي، انجليزية واضحة"]],
+d:[
+`فالقهوة|Can I have…? ولا I'd like… هوما أحسن طريقة مؤدبة باش تطلب.
+Can I have a coffee, please?|عطيني قهوة عافاك.
+I'd like a sandwich.|بغيت ساندويتش.
+For here or to go?|هنا ولا تديها معاك؟`,
+`فالريسطو|the bill = الحساب.
+Can I see the menu, please?|نقدر نشوف المنيو عافاك؟
+What do you recommend?|شنو كتنصحني؟
+The bill, please.|الحساب عافاك.`,
+`فالحانوت|too = بزاف (بمعنى ماشي مزيان).
+How much is this shirt?|بشحال هاد القميجة؟
+Do you have a bigger size?|واش عندك قياس كبر؟
+It's too expensive.|غالية بزاف.`,
+`الخلاص|I'll take it = غادي ناخدها.
+Can I pay by card?|نقدر نخلص بالكارط؟
+I'm just looking, thanks.|غير كنشوف، شكرا.
+I'll take it.|غادي ناخدها.`,
+`الفلوس والصرف|change = الصرف.
+It's twenty dollars.|عشرين دولار.
+Do you have change?|عندك الصرف؟
+Keep the change.|خلي الصرف عندك.`,
+`نجرّب ونتفاهم|try on = نجرب الحوايج.
+Is there a discount?|واش كاين شي تخفيض؟
+Can I try it on?|نقدر نجربها؟
+Where can I pay?|فين نخلص؟`]},
+{t:"الطريق والبلايص",g:"تسول على الطريق وتفهم الجواب",sc:"He is lost in a new city and asks you for directions. Give simple directions (straight, left, right, next to, in front of).",
+pr:["ED فالماضي (3 أصوات)","watched = تْ، played = دْ، wanted = إدْ. ماشي ديما «إد»!",["watched","played","wanted","worked","needed"]],
+v:[["Asking for directions","asking for directions in English conversation","حوارات فالزنقة"],["Bluey","Bluey episode English","كمل"],["Easy English","Easy English where do you live","ناس كيهضرو على مدنهم"]],
+d:[
+`فين كاين…؟|near here = قريب من هنا.
+Excuse me, where is the station?|سمح ليا، فين كاينة لاگار؟
+Is there a pharmacy near here?|واش كاينة شي فرمسيان قريبة من هنا؟
+How far is it?|شحال بعيد؟`,
+`الاتجاهات|straight = نيشان، left = ليسر، right = ليمن.
+Go straight.|سير نيشان.
+Turn left.|دور على ليسر.
+Turn right.|دور على ليمن.`,
+`حدا، قدام، مور|next to حدا، in front of قدام، behind مور.
+It's next to the bank.|حدا البنكة.
+It's in front of the mosque.|قدام الجامع.
+It's behind the school.|مور المدرسة.`,
+`تفاصيل|on foot = على رجليك.
+Take the first street on the right.|خود أول زنقة على ليمن.
+It's about ten minutes on foot.|شي عشر دقايق على رجليك.
+You can't miss it.|غادي تلقاه ساهل.`,
+`النقل|leave = يخرج / يمشي.
+Which bus goes to the airport?|شمن طوبيس كيمشي للمطار؟
+A ticket to Rabat, please.|ورقة للرباط عافاك.
+What time does the train leave?|فوقاش كيخرج التران؟`,
+`تلفت!|ما تخافش تسول، الناس كيحبو يعاونو.
+I'm lost.|تلفت.
+Can you show me on the map?|تقدر توريني فالخريطة؟
+Thanks for your help!|شكرا على المساعدة!`]},
+{t:"البارح والويكاند (الماضي)",g:"تحكي شنو درتي البارح ولا فالويكاند",sc:"Ask him what he did yesterday and last weekend. React with interest and ask follow-up questions. Use past simple.",
+pr:["i قصيرة و ee طويلة","ship (شِپ قصيرة) / sheep (شيييپ طويلة). live / leave. الفرق كيبدل المعنى!",["ship","sheep","live","leave","sit"]],
+v:[["Extr@ English","Extr@ English episode 6","كمل"],["What did you do last weekend","Easy English what did you do last weekend","ناس كيحكيو"],["My Neighbor Totoro (English)","My Neighbor Totoro English dub clip","أنمي بسيط وهادئ"]],
+d:[
+`was / were|am/is ← was — are ← were.
+I was at home yesterday.|كنت فالدار البارح.
+Where were you?|فين كنتي؟
+It was amazing!|كانت واعرة!`,
+`أفعال + ed|الأفعال العادية كنزيدو ليهم ed فالماضي.
+I watched a movie.|تفرجت ففيلم.
+We played football.|لعبنا الكورة.
+I worked late.|خدمت حتى لمعطل.`,
+`أفعال شاذة|go ← went، see ← saw، eat ← ate. حفظهم بحال الكلمات.
+I went to the beach.|مشيت للبحر.
+I saw my friends.|شفت صحابي.
+I ate tajine.|كليت الطاجين.`,
+`النفي والسؤال|didn't + الفعل الأصلي (ماشي went!).
+I didn't go out.|ما خرجتش.
+Did you sleep well?|واش نعستي مزيان؟
+Yes, I did. / No, I didn't.|اه. / لا.`,
+`كيف داز؟|أسئلة كتفتح الهضرة.
+What did you do last weekend?|شنو درتي فالويكاند لي داز؟
+How was your day?|كيف داز نهارك؟
+It was a long day.|كان نهار طويل.`,
+`الوقت فالماضي|ago = هادي.
+two days ago|هادي جوج ايام
+last night|البارح فالليل
+When I was a child, I lived in Fes.|ملي كنت صغير كنت ساكن ففاس.`]},
+{t:"الإحساس والرأي",g:"تعبّر على شنو حاس وشنو كتفكر",sc:"Talk about feelings and opinions on simple topics (food, football, social media, cities). Ask what he thinks and react with empathy.",
+pr:["R الانجليزية","R الانجليزية ما كترونش بحال الدارجة. اللسان ما كيضربش، كيتلوى لور شوية.",["really","right","sorry","very","red"]],
+v:[["Extr@ English","Extr@ English episode 7","كمل"],["Feelings & opinions","expressing opinions in English for beginners","I think / I agree"],["Kiki's Delivery Service (English)","Kiki's Delivery Service English dub clip","أنمي جميل وواضح"]],
+d:[
+`كيف حاس؟|a bit = شوية.
+I'm happy.|انا فرحان.
+I'm a bit stressed.|انا مستريسي شوية.
+I'm bored.|مالّيت / تقلقت.`,
+`الرأي ديالي|I think = كنظن / كنشوف.
+I think it's a good idea.|كنظن فكرة مزيانة.
+In my opinion, it's too expensive.|فرأيي، غالي بزاف.
+I don't think so.|ما كنظنش.`,
+`متافق ولا لا|agree = متافق.
+I agree with you.|متافق معاك.
+I don't agree.|ما متافقش.
+You have a point.|عندك شي حق.`,
+`ردة الفعل|ملي شي حد يحكي ليك شي خبر.
+That's great!|زوين بزاف!
+That's too bad.|خسارة.
+I'm sorry to hear that.|متأسف نسمع هادشي.`,
+`سول على الرأي|It depends = على حساب.
+What do you think?|شنو كتشوف نتا؟
+Do you like it?|واش عجبك؟
+It depends.|على حساب.`,
+`كنفضل|prefer A to B = كنفضل A على B.
+I prefer tea to coffee.|كنفضل أتاي على القهوة.
+I'd rather stay home.|نفضل نبقى فالدار.
+It's not my thing.|ماشي ديالي هادشي.`]},
+{t:"المستقبل والبلانات",g:"تهضر على شنو غادي دير",sc:"Ask about his plans for tonight, the weekend, and his dreams for the future. Use going to and will.",
+pr:["الكلمات الصغار كيتنقصو","فالهضرة السريعة to كتولي «تَ»، and كتولي «ن»، for كتولي «فَر». هادي علاش كتحس الناس كيهضرو بالزربة!",["going to","bread and butter","for you","a cup of tea","fish and chips"]],
+v:[["Extr@ English","Extr@ English episode 9","كمل"],["Future plans","Easy English what are your plans for the future","ناس كيهضرو على الأحلام ديالهم"],["Avatar: The Last Airbender","Avatar The Last Airbender best scenes","أنمي/كرتون مشهور، انجليزية واضحة"]],
+d:[
+`going to|بلان مقرر: I'm going to + الفعل.
+I'm going to travel next month.|غادي نسافر الشهر الجاي.
+What are you going to do tonight?|شنو غادي دير الليلة؟
+I'm going to study.|غادي نقرا.`,
+`will|قرار دابا ولا وعد: I'll = I will.
+I'll call you later.|غادي نعيط ليك من بعد.
+I'll help you.|غادي نعاونك.
+Don't worry, it will be fine.|ما تخافش، غادي تدوز مزيان.`,
+`بلانات مقررة|-ing مع وقت فالمستقبل = موعد مقرر.
+I'm meeting a friend tomorrow.|عندي موعد مع صاحبي غدا.
+Are you working on Saturday?|واش خدام نهار السبت؟
+We're leaving at eight.|غادي نخرجو مع التمنية.`,
+`يمكن…|maybe = يمكن، I hope so = ان شاء الله / نتمنى.
+Maybe I'll stay home.|يمكن نبقى فالدار.
+I'm not sure yet.|مازال ما متأكدش.
+I hope so.|ان شاء الله.`,
+`الأحلام|become = يولي.
+My dream is to live in Canada.|الحلم ديالي نعيش فكندا.
+I want to become a developer.|بغيت نولي ديفلوبور.
+One day, I will speak English fluently.|شي نهار غادي نهضر الانجليزية مزيان.`,
+`الويكاند|Let's see = نشوفو.
+What are your plans for the weekend?|شنو البلانات ديالك للويكاند؟
+Nothing special.|والو، عادي.
+Let's see.|نشوفو.`]},
+{t:"Small talk — تفتح الهضرة وتخليها دايرة",g:"تهضر مع أي واحد على أي حاجة وتخلي الهضرة ما توقفش",sc:"Casual small talk with a new friend: weather, hobbies, music, weekend. Show interest, react naturally and ask follow-up questions.",
+pr:["Stress — فين كتضغط","فكل كلمة كاين مقطع قوي: PHO-to، ba-NA-na، TO-day؟ لا: to-DAY. حاول تسمع المقطع القوي.",["photo","banana","today","computer","important"]],
+v:[["Easy English","Easy English hobbies street interview","ناس كيهضرو على الهوايات"],["Small talk examples","small talk in English examples conversation","كيفاش تبدا الهضرة"],["Avatar: The Last Airbender","Avatar The Last Airbender funny moments","كمل"]],
+d:[
+`الجو|الجو هو أسهل موضوع باش تبدا مع أي واحد.
+Nice weather today, right?|الجو زوين اليوم، ياك؟
+It's so hot!|السخانة بزاف!
+It's raining again.|عاود كتصب الشتا.`,
+`الهوايات|be into = كنموت على / كيعجبني بزاف.
+What do you do for fun?|شنو كدير باش تفوج؟
+I'm into music.|كنموت على الموسيقى.
+Me too!|حتى انا!`,
+`ردة الفعل|هاد الكلمات كيوريو بلي راك منتابع.
+Really?|بصح؟
+That's interesting!|مزيان، مثير!
+No way!|مستحيل! / والله ما…`,
+`سول باش تكمل|سؤال المتابعة هو سر الهضرة الزوينة.
+How was it?|كيف دازت؟
+Tell me more.|زيد حكي ليا.
+And then what happened?|ومن بعد شنو وقع؟`,
+`عطي راسك الوقت|ملي ما لقيتيش الكلمة، ما تسكتش: قول هادو.
+Well…|يعني…
+Let me think…|خليني نفكر…
+You know…|عرفتي…`,
+`سالي بأدب|ما تمشيش فجأة 😄
+It was nice talking to you.|فرحت ملي هضرت معاك.
+I have to go now.|خاصني نمشي دابا.
+Let's keep in touch.|نبقاو على اتصال.`]},
+{t:"العروضات، المواعيد والتيليفون",g:"تعرض، تقبل، ترفض بأدب وتهضر فالتيليفون",sc:"Invite him to do something (coffee, cinema, football). Let him accept or refuse politely, then agree on time and place. Sometimes switch to a phone call or text messages.",
+pr:["Linking — الكلمات كيتلصقو","Can I كتولي «كانآي»، Not at all كتولي «نوتاتول». الكلمة لي كتسالي بحرف ساكن كتلصق فلي من بعدها.",["Can I","not at all","pick it up","an apple","turn off"]],
+v:[["Extr@ English","Extr@ English episode 11","كمل"],["Making plans","making plans with friends English conversation","حوارات واقعية"],["Friends (best scenes)","Friends TV show easy scenes English subtitles","شغل الترجمة بالانجليزية"]],
+d:[
+`العرض|grab a coffee = نشربو شي قهوة.
+Do you want to grab a coffee?|بغيتي نشربو شي قهوة؟
+Are you free tonight?|واش خاوي الليلة؟
+Let's go to the cinema.|يالا نمشيو للسينما.`,
+`القبول|Sounds good = مزيان / واخا.
+Sure, I'd love to!|أكيد، بكل فرح!
+Sounds good!|واخا، مزيان!
+Why not?|علاش لا؟`,
+`الرفض بأدب|ديما عطي سبب صغير.
+Sorry, I can't. I'm busy.|سمح ليا، ما نقدرش. مشغول.
+Maybe next time.|يمكن مرة اخرى.
+Thanks, but I have plans.|شكرا، ولكن عندي شي بلان.`,
+`الوقت والبلاصة|How about…? = اش بان ليك ف…؟
+What time works for you?|شمن وقت مناسب ليك؟
+How about Friday?|اش بان ليك فالجمعة؟
+Let's meet at the café.|نتلاقاو فالقهوة.`,
+`التيليفون|call back = تعاود تعيط.
+Hello, it's Sami.|ألو، انا سامي.
+Can I speak to Adam?|نقدر نهضر مع آدم؟
+Can you call me back?|تقدر تعاود تعيط ليا؟`,
+`الميساجات|running late = متعطل.
+I'm on my way.|انا فالطريق.
+I'll be there in ten minutes.|غادي نوصل فعشر دقايق.
+Sorry, I'm running late.|سمح ليا، تعطلت شوية.`]},
+{t:"المشاكل، المساعدة والاعتذار",g:"تحل المشاكل وتطلب المساعدة وتعتذر بأدب",sc:"Role-play everyday problems: a broken phone at a shop, a wrong order at a restaurant, feeling sick at a pharmacy. He must explain the problem and ask for help politely.",
+pr:["Intonation — الصوت كيطلع ولا كيهبط","أسئلة Yes/No: الصوت كيطلع ↗ (Are you okay?). أسئلة What/Where: كيهبط ↘ (Where do you live?).",["Are you okay?","Is it far?","Where do you live?","What's your name?","Do you like it?"]],
+v:[["Extr@ English","Extr@ English episode 13","كمل"],["At the doctor","at the doctor English conversation beginners","حوار عند الطبيب"],["Friends","Friends TV show funny scenes English subtitles","كمل"]],
+d:[
+`عندي مشكل|doesn't work = ما خدامش.
+I have a problem.|عندي مشكل.
+Something is wrong with my phone.|التيليفون ديالي فيه شي مشكل.
+It doesn't work.|ما خدامش.`,
+`طلب بأدب|Could you…? أدب كتر من Can you…?
+Could you help me, please?|تقدر تعاوني عافاك؟
+Could you open the window?|تقدر تحل الشرجم؟
+Would you mind waiting a minute?|واش ما عندك مشكل تتسنى دقيقة؟`,
+`الاعتذار|ملي تغلط، قول So sorry وما تحماقش 😄
+I'm so sorry.|سمح ليا بزاف.
+It was my fault.|الغلط ديالي.
+No problem. Don't worry about it.|ماشي مشكل. ما تخممش فيها.`,
+`عند الطبيب|feel well = حاس براسي مزيان.
+I don't feel well.|ما حاسش براسي مزيان.
+I have a headache.|كيضرني راسي.
+I need a doctor.|خاصني طبيب.`,
+`الشكاية بأدب|refund = ترجع الفلوس.
+Excuse me, this is not what I ordered.|سمح ليا، هادشي ماشي هو لي طلبت.
+Could I get a refund?|نقدر نرجع فلوسي؟
+I'd like to speak to the manager.|بغيت نهضر مع المسؤول.`,
+`الطوارئ|حفظهم، الله يحفظ.
+Help!|عتقوني!
+Call the police!|عيطو للبوليس!
+Where is the nearest hospital?|فين أقرب سبيطار؟`]},
+{t:"الخدمة والقراية",g:"تهضر على الخدمة، القراية، وتدوز انتيرفيو بسيط",sc:"Simulate a simple, friendly job interview, then a chat between colleagues at work. Ask about experience, strengths and goals.",
+pr:["Schwa ə — أهم صوت","أغلب الحروف الضعيفة كتولي «أَ» خفيفة: banana = بَنانَ، about = أَباوت، doctor = دوكتَر.",["about","banana","doctor","problem","today"]],
+v:[["Job interview","job interview English beginners example","انتيرفيو بالانجليزية"],["Easy English – jobs","Easy English what is your job street interview","ناس كيهضرو على خدمتهم"],["Spider-Man: Into the Spider-Verse","Spider-Man Into the Spider-Verse clips","فيلم أنيميشن، طاقة زوينة"]],
+d:[
+`الخدمة ديالي|looking for = كنقلب على.
+I work as a technician.|كنخدم تقني.
+I'm looking for a job.|كنقلب على خدمة.
+I study computer science.|كنقرا المعلوميات.`,
+`الانتيرفيو|experience = تجربة.
+Tell me about yourself.|حكي ليا على راسك.
+I have two years of experience.|عندي جوج سنين ديال التجربة.
+I'm good at working in a team.|مزيان فالخدمة مع الفريق.`,
+`نقاط القوة|fast learner = كنتعلم بالزربة.
+I'm a fast learner.|كنتعلم بالزربة.
+I'm hard-working.|انا جدّي فالخدمة.
+I'm always on time.|ديما كنجي فالوقت.`,
+`الميتينگ والإيميل|get back to you = نرجع ليك بالجواب.
+Can we schedule a meeting?|نقدرو نحددو شي ميتينگ؟
+I'll send you an email.|غادي نصيفط ليك إيميل.
+Let me check and get back to you.|خليني نشوف ونرجع ليك.`,
+`ما فهمتش فالخدمة|ماشي عيب تسول، العيب تخدم غالط 😉
+Could you explain that again?|تقدر تشرح ليا هادشي مرة اخرى؟
+What do you mean exactly?|شنو كتقصد بالضبط؟
+Just to be clear, the deadline is Friday?|غير باش نكون فاهم، الأجل هو الجمعة؟`,
+`سالي الانتيرفيو|look forward to = كنتسنى بفرح.
+Thank you for your time.|شكرا على الوقت ديالك.
+I look forward to hearing from you.|كنتسنى الجواب ديالك.
+When can I start?|فوقاش نقدر نبدا؟`]},
+{t:"حكي قصة",g:"تحكي قصة ولا حاجة وقعات ليك بالترتيب",sc:"Ask him to tell you stories (a funny day, a trip, a problem). Help him use first/then/after that/suddenly. Tell short stories yourself too.",
+pr:["Contractions فالهضرة","الناس ما كيقولوش I am / do not، كيقولو I'm / don't. تعلم تسمعهم: I'd، you'll، wasn't.",["I'm","don't","I'll","wasn't","I'd like"]],
+v:[["Storytelling","tell a story in English simple past beginners","كيفاش تحكي قصة"],["Your Name (English dub)","Your Name anime English dub clip","أنمي مشهور"],["Friends","Friends best stories scenes","كمل"]],
+d:[
+`الترتيب|First، Then، After that، Finally.
+First, I woke up late.|فالأول، فقت معطل.
+Then, I missed the bus.|من بعد، فاتني الطوبيس.
+After that, I took a taxi.|من بعد داكشي، خديت طاكسي.
+Finally, I arrived at work.|فالأخير، وصلت للخدمة.`,
+`فجأة!|Suddenly = فجأة، In the end = فالأخير.
+Suddenly, it started to rain.|فجأة، بدات الشتا.
+At that moment, my phone rang.|ففاك اللحظة، صوني التيليفون.
+In the end, everything was fine.|فالأخير، كلشي داز مزيان.`,
+`كنت كندير…|was + ing = كنت كندير (حاجة طويلة فالماضي).
+I was walking when I saw him.|كنت غادي ملي شفتو.
+What were you doing?|شنو كنتي كدير؟
+It was raining.|كانت كتصب الشتا.`,
+`but / so / because|so = إذن، but = ولكن.
+I was tired, so I went to bed.|كنت عيان، إذن مشيت نعس.
+I wanted to go, but it was late.|بغيت نمشي ولكن كان الحال معطل.
+I was late because of the traffic.|تعطلت بسبب الزحام.`,
+`بدا القصة|جمل كيخليو الناس يتسناو القصة ديالك.
+You won't believe what happened!|ما غاديش تتيق شنو وقع!
+Guess what!|عرف شنو!
+Long story short, I lost my keys.|باختصار، ودرت السوارت.`,
+`ردة الفعل على القصة|بيّن بلي منتابع.
+Oh my God!|يا ربي!
+What happened next?|شنو وقع من بعد؟
+That's so funny!|ضحكتيني!`]},
+{t:"الانجليزية الطبيعية",g:"تفهم وتهضر بحال الناس فالأفلام والسوشل ميديا",sc:"Chat like two young friends texting: casual, natural English with gonna, wanna, phrasal verbs (hang out, figure out) and slang like what's up, no worries, my bad.",
+pr:["gonna / wanna","فالأفلام: going to = gonna (گونَ)، want to = wanna (وونَ)، got to = gotta (گوتَ). فهمهم، واستعملهم غير مع الصحاب.",["gonna","wanna","gotta","kinda","lemme"]],
+v:[["Friends","Friends TV show scenes English subtitles","دابا تقدر تفهم بزاف"],["Phrasal verbs in movies","phrasal verbs in movies examples","أمثلة من الأفلام"],["Spider-Verse","Spider-Man Across the Spider-Verse clips","كمل"]],
+d:[
+`gonna / wanna|غير فالهضرة مع الصحاب، ماشي فالإيميل.
+I'm gonna call him.|غادي نعيط ليه.
+I wanna go home.|بغيت نمشي للدار.
+Gotta go!|خاصني نمشي!`,
+`Phrasal verbs 1|فعل + كلمة صغيرة = معنى جديد.
+Let's hang out this weekend.|يالا نخرجو نتساراو هاد الويكاند.
+Can you pick me up at eight?|تقدر تدوز تدّيني مع التمنية؟
+I need to find out the truth.|خاصني نعرف الحقيقة.`,
+`Phrasal verbs 2|give up = تطيح الراية، figure out = تلقى حل.
+Don't give up!|ما تطيحش الراية!
+I'm looking for my keys.|كنقلب على السوارت ديالي.
+I'll figure it out.|غادي نلقى ليها شي حل.`,
+`Slang 1|What's up? = اش خبارك؟ والجواب: Not much.
+What's up?|اش خبارك؟
+Not much. You?|والو، عادي. ونتا؟
+No worries.|ماشي مشكل.`,
+`Slang 2|I'm down = انا معاكم / واخا.
+I'm down!|انا معاكم!
+It's up to you.|على حسابك نتا.
+My bad.|سمح ليا، الغلطة ديالي.`,
+`Slang 3|جمل قصيرة كتسمعهم فكل فيلم.
+Fair enough.|معقول.
+Same here.|حتى انا.
+Never mind.|خليها، ماشي مشكل.`]},
+{t:"هضرة حقيقية + الاختبار النهائي",g:"تهضر بثقة فمواقف حقيقية",sc:"Mix everything: airport and hotel, meeting new people, polite disagreement, deeper personal questions. Treat him like a confident speaker and celebrate his progress.",
+pr:["Rhythm — الإيقاع","الانجليزية بحال الموسيقى: الكلمات المهمة قوية، والصغار خفاف وزربين. I WANT to GO to the PARK.",["I want to go to the park","What do you think","Nice to meet you","See you later","How was your day"]],
+v:[["Real conversations","Easy English street interview advanced learners","دابا بلا ترجمة!"],["Friends","Friends TV show full scenes","حاول بلا ترجمة"],["TED-Ed","TED-Ed animated lessons","دروس أنيميشن قصيرة"]],
+d:[
+`المطار والأوطيل|check-out = وقت الخروج من الأوطيل.
+I have a reservation.|عندي حجز.
+Here is my passport.|ها الباسبور ديالي.
+What time is check-out?|فوقاش خاصني نخرج من البيت؟`,
+`ناس جداد|introduce = نعرّف.
+Let me introduce myself.|خليني نعرّف براسي.
+This is my friend Adam.|هادا صاحبي آدم.
+How do you know each other?|منين كتعرفو بعضياتكم؟`,
+`ما متافقش بأدب|بلا ما تجرح حتى واحد.
+I see your point, but I disagree.|فهمت قصدك، ولكن ما متافقش.
+I'm not sure about that.|ما متأكدش من هادشي.
+Let's agree to disagree.|كل واحد يبقى على رأيو.`,
+`أسئلة عميقة|If you could… = يلا كان تقدر…
+What do you like most about your job?|شنو أكثر حاجة كتعجبك فالخدمة ديالك؟
+If you could live anywhere, where would you live?|يلا كان تقدر تعيش فأي بلاصة، فين غتعيش؟
+What's your favorite memory?|شنو أحسن ذكرى عندك؟`,
+`الثقة|ماشي خاصك تكون perfect، خاصك تكون مفهوم.
+Sorry, my English isn't perfect, but I'm improving.|سمح ليا، الانجليزية ديالي ماشي كاملة، ولكن كنتحسن.
+Could you speak a bit slower?|تقدر تهضر بشوية شوية؟
+Let me say it another way.|خليني نقولها بطريقة اخرى.`,
+`وصلت!|برافو عليك 🎉
+I've learned a lot.|تعلمت بزاف.
+I'm proud of myself.|فخور براسي.
+Practice makes perfect.|بالتمرين كتولي محترف.`]}
+];
+// لعبة «سمع وجاوب»: [السيمانة، السؤال، الجواب الصحيح، غلط، غلط]
+const RP=[
+[0,"How are you?","I'm fine, thanks. And you?","I'm 25.","From Morocco."],
+[0,"What's your name?","My name is Sami.","I'm fine.","See you later."],
+[0,"Where are you from?","I'm from Morocco.","I'm a student.","Thank you."],
+[0,"Nice to meet you.","Nice to meet you too.","You're welcome.","I don't know."],
+[0,"How old are you?","I'm 25 years old.","I'm from Rabat.","Good morning."],
+[0,"Thank you very much!","You're welcome.","Nice to meet you.","I'm tired."],
+[0,"What do you do?","I'm a student.","I do fine.","I'm twenty."],
+[1,"Do you speak English?","A little. I'm learning.","Yes, I am.","I'm from here."],
+[1,"Are you okay?","Yes, I'm fine. Thanks.","Yes, it is.","No, they aren't."],
+[1,"Is it far?","No, it isn't. It's near.","No, I'm not.","Yes, I do."],
+[2,"Where do you live?","I live in Casablanca.","I live at seven.","Because I'm tired."],
+[2,"What time is it?","It's five o'clock.","It's cold.","It's my friend."],
+[2,"How much is it?","It's ten dirhams.","It's very good.","I'm fine."],
+[2,"Why are you sad?","Because I lost my phone.","Yes, I am.","At five."],
+[3,"Do you like music?","Yes, I do. I love it.","Yes, I am.","Yes, it is."],
+[3,"What time do you wake up?","I wake up at seven.","I wake up in Rabat.","Yes, I wake up."],
+[3,"Does your brother work?","Yes, he works in a bank.","Yes, I work.","Yes, he is work."],
+[4,"Can I help you?","Yes, can I have a coffee, please?","Yes, I can.","No, I'm fine, and you?"],
+[4,"For here or to go?","To go, please.","Here is my name.","I go to work."],
+[4,"Can I pay by card?","Sure, no problem.","Yes, I pay.","It's a card."],
+[5,"Excuse me, where is the station?","Go straight and turn left.","It's at eight.","I'm the station."],
+[5,"Is it far from here?","About ten minutes on foot.","It's very good.","Yes, I am far."],
+[6,"What did you do last weekend?","I went to the beach.","I go to the beach.","I will go to the beach."],
+[6,"How was your day?","It was a long day!","It is Monday.","I was at seven."],
+[6,"Did you sleep well?","Yes, I did, thanks.","Yes, I do.","Yes, I sleep."],
+[7,"What do you think?","I think it's a good idea.","I think at home.","It's Sunday."],
+[7,"I lost my job.","Oh, I'm sorry to hear that.","That's great!","Me too, thanks."],
+[8,"What are you going to do tonight?","I'm going to watch a movie.","I watched a movie.","I watch movies yesterday."],
+[8,"What are your plans for the weekend?","Nothing special. Maybe I'll stay home.","Last weekend was fun.","I'm a plan."],
+[9,"What do you do for fun?","I play football with my friends.","I'm fun.","Yes, I do it."],
+[9,"I went to London last week.","Really? How was it?","Me too, I'm London.","Good morning!"],
+[10,"Do you want to grab a coffee?","Sure, I'd love to!","Yes, I grab.","Coffee is hot."],
+[10,"Are you free tonight?","Sorry, I can't. I'm busy.","Yes, it's free.","I'm not money."],
+[10,"Where are you?","I'm on my way!","I'm fine, thanks.","I'm a way."],
+[11,"What's wrong?","My phone doesn't work.","Nothing wrong, thanks you.","It's wrong time."],
+[11,"I'm so sorry I'm late.","No problem. Don't worry about it.","You're welcome.","Me too."],
+[12,"Tell me about yourself.","I'm Sami. I'm 25 and I love technology.","Myself is good.","Tell you about me."],
+[12,"Do you have any experience?","Yes, I have two years of experience.","Yes, I am experience.","I experience yesterday."],
+[13,"And then what happened?","Suddenly, the lights went off!","Then I happen.","What happened next?"],
+[14,"What's up?","Not much. You?","The sky.","I'm up."],
+[14,"Wanna hang out later?","Sure, I'm down!","I'm hanging.","Later is late."],
+[15,"How do you know each other?","We were classmates at university.","Yes, we know.","Each other is fine."]
+];
+const LEVELS=["A1 — مبتدئ","A1 — مبتدئ","A1 — مبتدئ","A1 — مبتدئ","A1+","A1+","A1+","A1+","A2","A2","A2","A2","A2+ → B1","A2+ → B1","A2+ → B1","A2+ → B1"];
+const INT=[0,1,2,4,7,15,30];
+const TOTAL=W.length*7;
+
+/* ============ PARSE ============ */
+W.forEach((w,wi)=>{w.L=w.d.map((s,di)=>{const ln=s.trim().split('\n');const [t,n]=ln[0].split('|');return {t,n,p:ln.slice(1).map((l,i)=>{const [en,ar,pr]=l.split('|');return {id:wi+'-'+di+'-'+i,en:en.trim(),ar:(ar||'').trim(),pr:(pr||'').trim(),w:wi,d:di}})}})});
+const ALL=[];const BYID={};W.forEach(w=>w.L.forEach(l=>l.p.forEach(p=>{ALL.push(p);BYID[p.id]=p})));
+
+/* ============ UTIL ============ */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const today=()=>new Date().toLocaleDateString('en-CA');
+const addDays=(ds,n)=>{const d=new Date(ds+'T12:00:00');d.setDate(d.getDate()+n);return d.toLocaleDateString('en-CA')};
+const dayDiff=(a,b)=>Math.round((new Date(b+'T12:00:00')-new Date(a+'T12:00:00'))/864e5);
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const pick=(a,n)=>shuffle(a).slice(0,n);
+const yt=q=>'https://www.youtube.com/results?search_query='+encodeURIComponent(q);
+const yg=en=>'https://youglish.com/pronounce/'+encodeURIComponent(firstAlt(en).replace(/[.!?,"…]/g,'').trim())+'/english';
+const firstAlt=s=>s.split(' / ')[0];
+const bidi=t=>esc(t).replace(/[A-Za-z][A-Za-z0-9' ?!.,\/+-]*[A-Za-z0-9?!.]|[A-Za-z]/g,m=>`<span class="en">${m}</span>`);
+function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('on');clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('on'),1800)}
+const CONTR={"i'm":"i am","you're":"you are","he's":"he is","she's":"she is","it's":"it is","we're":"we are","they're":"they are","what's":"what is","don't":"do not","doesn't":"does not","didn't":"did not","isn't":"is not","aren't":"are not","can't":"cannot","i'll":"i will","you'll":"you will","it'll":"it will","i'd":"i would","won't":"will not","let's":"let us","that's":"that is","there's":"there is","wasn't":"was not","weren't":"were not","i've":"i have","where's":"where is","how's":"how is","who's":"who is"};
+function norm(s){s=String(s).toLowerCase().replace(/[’‘`´]/g,"'");s=s.replace(/[a-z']+/g,w=>CONTR[w]||w);return s.replace(/can not/g,'cannot').replace(/[^a-z0-9\s]/g,' ').replace(/\s+/g,' ').trim()}
+function lev(a,b){const m=a.length,n=b.length;if(!m)return n;if(!n)return m;let p=Array(n+1).fill(0).map((_,i)=>i);for(let i=1;i<=m;i++){const c=[i];for(let j=1;j<=n;j++)c[j]=Math.min(p[j]+1,c[j-1]+1,p[j-1]+(a[i-1]===b[j-1]?0:1));p=c}return p[n]}
+function grade(user,en){const u=norm(user);if(!u)return 'no';let best=0;en.split(' / ').forEach(alt=>{const t=norm(alt);const r=1-lev(u,t)/Math.max(u.length,t.length);if(r>best)best=r});return best>=.88?'ok':best>=.62?'close':'no'}
+
+/* ============ STATE ============ */
+const KEY='yalla-english-v1';
+function fresh(){return {v:1,start:today(),g:0,done:{},cards:{},log:{},xp:0,tests:{},best:{},chat:{mode:'lesson',msgs:[]},weak:[],updatedAt:0}}
+let S=fresh();
+try{const l=JSON.parse(localStorage.getItem(KEY)||'null');if(l&&l.v===1)S=Object.assign(fresh(),l)}catch(e){}
+let db=null,saveT=null,saving=false,again=false;
+function lg(){const t=today();return S.log[t]||(S.log[t]={})}
+function mark(k,xp){lg()[k]=(lg()[k]||0)+1;if(xp)S.xp+=xp;save()}
+function summary(){const t=today();const l=S.log[t]||{};const cur=Math.min(S.g,TOTAL-1);const w=Math.floor(cur/7);
+ const learned=Object.keys(S.cards);const weak=learned.filter(id=>(S.cards[id].wr||0)>0).sort((a,b)=>(S.cards[b].wr||0)-(S.cards[a].wr||0)).slice(0,12).map(id=>({en:BYID[id].en,ar:BYID[id].ar}));
+ const recent=learned.slice(-16).map(id=>({en:BYID[id].en,ar:BYID[id].ar}));
+ return {date:t,week:w+1,level:LEVELS[w],nextLesson:S.g<TOTAL?(S.g%7===6?'اختبار السيمانة '+(w+1):W[w].L[S.g%7].t):'سالا البرنامج',lessonsDone:Object.keys(S.done).length,learnedCount:learned.length,streak:streak(),xp:S.xp,todayDid:l,lastActive:Object.keys(S.log).sort().pop()||null,dueToday:dueCards().length,weak,recent,tests:S.tests}}
+function save(){S.updatedAt=Date.now();S.summary=summary();try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}clearTimeout(saveT);saveT=setTimeout(flush,1200)}
+async function flush(){if(!db)return;if(saving){again=true;return}saving=true;try{await db.doc('progress/me').set(JSON.parse(JSON.stringify(S)))}catch(e){console.log('db save',e&&e.code)}saving=false;if(again){again=false;flush()}}
+function streak(){const days=new Set(Object.keys(S.log).filter(d=>Object.keys(S.log[d]).length));let d=today(),n=0;if(!days.has(d))d=addDays(d,-1);while(days.has(d)){n++;d=addDays(d,-1)}return n}
+function dueCards(){const t=today();return Object.keys(S.cards).filter(id=>BYID[id]&&S.cards[id].due<=t)}
+function learnedCards(){return Object.keys(S.cards).filter(id=>BYID[id]).map(id=>BYID[id])}
+function addCards(ps){const t=addDays(today(),1);ps.forEach(p=>{if(!S.cards[p.id])S.cards[p.id]={b:1,due:t,wr:0,s:S.g}})}
+function srs(id,ok){const c=S.cards[id];if(!c)return;if(ok){c.b=Math.min(c.b+1,6);c.due=addDays(today(),INT[c.b])}else{c.b=1;c.due=addDays(today(),1);c.wr=(c.wr||0)+1}}
+const curW=()=>Math.floor(Math.min(S.g,TOTAL-1)/7);
+
+/* ============ SPEECH ============ */
+let tts=null,dict=null,sample=null,micTarget=null,listening=false;
+const canSpeak=()=>!!tts||('speechSynthesis' in window);
+async function speak(text,rate){text=String(text).replace(/\s*\/\s*/g,'. ');if(tts){try{await tts.speak(text,{language:'en',rate:rate||.9});return}catch(e){if(e&&e.code==='not_granted')tts=null;else if(e&&e.code==='busy')return}}
+ if('speechSynthesis' in window){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='en-US';u.rate=(rate||.9)*.95;const v=speechSynthesis.getVoices().find(v=>/^en(-|_)US/i.test(v.lang))||speechSynthesis.getVoices().find(v=>/^en/i.test(v.lang));if(v)u.voice=v;speechSynthesis.speak(u)}catch(e){}}}
+function micBtn(target){return dict?`<button class="ib m" data-mic="${target}">🎤</button>`:''}
+function micClick(target,btn){if(!dict)return;if(listening){dict.stop().catch(()=>{});return}micTarget=target;dict.start().catch(e=>{if(e&&e.code==='not_granted'){dict=null;toast('الميكرو ما مسموحش، كتب بيدك')}})}
+const spk=(t)=>canSpeak()?`<button class="ib" data-say="${esc(t)}">🔊</button>`:'';
+const slow=(t)=>canSpeak()?`<button class="ib" data-slow="${esc(t)}">🐢</button>`:'';
+
+/* ============ ROUTER ============ */
+let tab='home',view=null; // view: {type,...}
+function go(t){tab=t;view=null;document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.tab===t));render();scrollTo(0,0)}
+function open(v){view=v;render();scrollTo(0,0)}
+function back(){view=null;render();scrollTo(0,0)}
+function render(){const a=$('#app');
+ if(view){a.innerHTML=({lesson:vLesson,quiz:vQuiz,review:vReview,order:vOrder,rush:vRush,say:vSay,pron:vPron,settings:vSettings}[view.type])();bindView();return}
+ a.innerHTML=({home:vHome,play:vPlay,chat:vChat,watch:vWatch,plan:vPlan}[tab])();if(tab==='chat')afterChat()}
+function header(){const w=curW();return `<div class="top"><div class="logo">Yalla <b>English</b></div><div class="pills"><span class="pill">🔥 ${streak()}</span><span class="pill">⭐ ${S.xp}</span></div></div>`}
+function backBar(title){return `<div class="top"><button class="btn ghost sm" data-act="back">→ رجوع</button><b>${title||''}</b><span></span></div>`}
+
+/* ============ HOME ============ */
+function vHome(){const t=today(),l=S.log[t]||{},w=curW(),g=S.g;const h=new Date().getHours();
+ const last=Object.keys(S.log).filter(d=>d<t).sort().pop();const gap=last?dayDiff(last,t):0;
+ const due=dueCards().length;const pct=Math.round(Object.keys(S.done).length/TOTAL*100);
+ let lessonLabel,lessonSub;
+ if(g>=TOTAL){lessonLabel='🎓 سالتي البرنامج!';lessonSub='كمل بالمراجعة والهضرة مع Sam'}
+ else if(g%7===6){lessonLabel='🏆 اختبار السيمانة '+(w+1);lessonSub='شوف واش ضبطتي داكشي لي قريتي'}
+ else{lessonLabel='📘 '+W[w].L[g%7].t;lessonSub='درس جديد — السيمانة '+(w+1)+'، النهار '+(g%7+1)}
+ const steps=[
+  {k:'l',ic:'📘',t:l.l?'الدرس ✓':lessonLabel,s:l.l?'برافو! الدرس الجاي غدا':lessonSub,act:'lesson'},
+  {k:'r',ic:'🔁',t:'مراجعة الكلمات',s:due?due+' جملة خاصك تراجعها (باش ما تنساش)':'ما كاين والو للمراجعة اليوم 👌',act:'review'},
+  {k:'q',ic:'🎧',t:'كويز الليل: سمع وجاوب',s:'أسئلة على داكشي لي قريتي قبل، بالانجليزية فقط',act:'night'},
+  {k:'c',ic:'💬',t:'5 دقايق هضرة مع Sam',s:'جاوب بالانجليزية، Sam كيصحح ليك',act:'chatgo'}];
+ const doneN=steps.filter(s=>l[s.k]).length;
+ return header()+`
+ ${gap>=2?`<div class="card" style="background:var(--y2)">👋 مرحبا بيك من جديد! غبتي ${gap} ايام، ماشي مشكل. ما كنحسبوش الغياب، كنحسبو الرجوع 💪 كمل من فين حبستي.</div>`:''}
+ <div class="card"><div class="row" style="justify-content:space-between"><b>النيفو ديالك: <span class="badge">${LEVELS[w]}</span></b><span class="muted">السيمانة ${w+1} / 16</span></div>
+ <div class="bar" style="margin-top:8px"><i style="width:${Math.max(3,pct)}%"></i></div><div class="muted" style="margin-top:4px">${pct}% من البرنامج — الهدف ديال السيمانة: ${W[w].g}</div></div>
+ <div class="card hl"><div class="row" style="justify-content:space-between"><h2>🌙 حصة الليل — إجبارية</h2><span class="badge o">21:00 → 22:00</span></div>
+ <div class="muted">كل نهار مع 9 ديال الليل. ${doneN}/4 ${doneN===4?'— سالتي الحصة ديال اليوم 🎉':''}</div>
+ ${steps.map(s=>`<div class="step ${l[s.k]?'done':''}" data-act="${s.act}"><div class="ic">${s.ic}</div><div class="tx"><b>${s.t}</b><span class="muted">${s.s}</span></div><div class="ck">${l[s.k]?'✅':'◀'}</div></div>`).join('')}
+ ${l.l&&g<TOTAL?`<button class="btn ghost sm" data-act="lesson">بغيت نزيد الدرس الجاي (اختياري)</button>`:''}
+ </div>
+ <div class="sec">☀️ وسط النهار — اختياري (ملي تكون خاوي)</div>
+ <div class="grid2">
+  <div class="tile" data-act="go-play"><div class="ic">🎮</div><b>ألعاب</b><span>سمع، رتب، قول</span></div>
+  <div class="tile" data-act="pron"><div class="ic">🗣️</div><b>نطق السيمانة</b><span>${esc(W[w].pr[0])}</span></div>
+  <div class="tile" data-act="go-watch"><div class="ic">🎬</div><b>فرجة</b><span>فيديوهات على قد النيفو</span></div>
+  <div class="tile" data-act="free"><div class="ic">🔄</div><b>مراجعة حرة</b><span>10 جمل عشوائية</span></div>
+ </div>
+ <div class="card muted" style="margin-top:14px">💡 قاعدة ذهبية: حاول تجاوب بالانجليزية <b>بلا ما دوز على الدارجة فراسك</b>. سمع ← فكر بالانجليزية ← جاوب. الغلط عادي، هو لي كيعلمك.</div>
+ ${!getKey()?`<div class="card" style="background:var(--p2)" data-act="settings">🔑 باش يخدم Sam (الذكاء الاصطناعي)، خاصك تحط المفتاح المجاني مرة وحدة. كليكي هنا ◀</div>`:''}`}
+
+/* ============ LESSON ============ */
+function startLesson(gi){if(gi>=TOTAL){toast('سالا البرنامج 🎓');return}if(gi%7===6){startTest(gi);return}open({type:'lesson',g:gi,i:-1,ans:'',res:null})}
+function vLesson(){const v=view,w=Math.floor(v.g/7),L=W[w].L[v.g%7];
+ if(v.i<0)return backBar('السيمانة '+(w+1)+' · النهار '+(v.g%7+1))+`
+ <h2>📘 ${esc(L.t)}</h2><div class="card" style="background:var(--b2)">💡 ${bidi(L.n)}</div>
+ <div class="muted">1) سمع كل جملة 2–3 مرات وعاودها بصوت عالي. 2) دوز لـ 🎬 باش تشوف ناس حقيقيين كيقولوها فالفيديوهات.</div>
+ ${L.p.map(p=>`<div class="phrase"><div class="e en">${esc(p.en)}</div>${p.pr?`<div class="pr">🗣 ${esc(p.pr)}</div>`:''}<div class="a">🇲🇦 ${esc(p.ar)}</div>
+ <div class="row" style="margin-top:6px">${spk(p.en)}${slow(p.en)}<a class="ib v" href="${yg(p.en)}" target="_blank" rel="noopener">🎬 فالفيديوهات</a></div></div>`).join('')}
+ <button class="btn full" data-act="lstart">يالا نتمرنو 💪</button>`;
+ if(v.i<L.p.length){const p=L.p[v.i];const r=v.res;
+  return backBar('تمرين '+(v.i+1)+'/'+L.p.length)+`<div class="card center">
+  <div class="muted">كيفاش تقول هادي بالانجليزية؟</div><div class="big">${esc(p.ar)}</div>
+  <div class="row" style="flex-wrap:nowrap"><input type="text" id="ans" class="en" placeholder="Type in English…" value="${esc(v.ans)}" autocomplete="off" ${r?'disabled':''}>${micBtn('ans')}</div>
+  ${r?`<div class="fb ${r}">${r==='ok'?'🎉 Perfect!':r==='close'?'👌 قريب بزاف! شوف الصحيحة:':'💪 ماشي مشكل، هاهي:'}<div class="en" style="font-size:1.15rem;margin-top:4px">${esc(p.en)}</div><div class="row" style="justify-content:center;margin-top:6px">${spk(p.en)}</div></div>
+  <button class="btn full g" style="margin-top:12px" data-act="lnext">التالي ←</button>`:
+  `<div class="row" style="margin-top:12px"><button class="btn b" style="flex:1" data-act="lcheck">تحقق</button><button class="btn ghost" data-act="lshow">ما عرفتش</button></div>`}
+  </div>`}
+ return backBar('')+`<div class="card center"><div style="font-size:3rem">🎉</div><h2>ساليتي الدرس!</h2><p>هاد الجمل تزادو للمراجعة ديالك. غدا غادي نسولك عليهم باش ما تنساهمش.</p>
+ <button class="btn full g" data-act="lfinish">✅ سجل الدرس (+10 ⭐)</button>
+ <button class="btn full ghost" style="margin-top:8px" data-act="lchat">💬 تمرن عليهم مع Sam</button></div>`}
+function finishLesson(){const v=view,L=W[Math.floor(v.g/7)].L[v.g%7];addCards(L.p);S.done[v.g]=S.done[v.g]||today();if(S.g<=v.g)S.g=v.g+1;mark('l',10)}
+
+/* ============ QUIZ ENGINE ============ */
+function mkQ(card,pool,kind){const others=pick(pool.filter(c=>c.id!==card.id&&firstAlt(c.en)!==firstAlt(card.en)),3);
+ if(kind==='listen')return {k:'listen',c:card,opts:shuffle([card,...others])};
+ if(kind==='type')return {k:'type',c:card};
+ if(kind==='en2ar')return {k:'en2ar',c:card,opts:shuffle([card,...others])};
+ return {k:'ar2en',c:card,opts:shuffle([card,...others])}}
+function mkReply(r){return {k:'reply',r,opts:shuffle([r[2],r[3],r[4]])}}
+function runQuiz(title,qs,onEnd){open({type:'quiz',title,qs,i:0,score:0,ans:null,txt:'',onEnd})}
+function vQuiz(){const v=view;if(v.i>=v.qs.length){const pct=Math.round(v.score/v.qs.length*100);return backBar(v.title)+`<div class="card center"><div style="font-size:3rem">${pct>=80?'🏆':pct>=60?'👏':'💪'}</div><h2>${v.score} / ${v.qs.length}</h2><p>${pct>=80?'واعر! راك ضابط.':pct>=60?'مزيان! شوية ديال المراجعة وصافي.':'ماشي مشكل، الجمل لي غلطتي فيهم غادي يرجعو ليك فالمراجعة.'}</p><button class="btn full g" data-act="qend">سالي ✓</button></div>`}
+ const q=v.qs[v.i],a=v.ans;let body='';
+ const listen=q.k==='listen'||q.k==='reply';
+ if(q.k==='ar2en'){body=`<div class="muted">شمن جملة كتعني:</div><div class="big">${esc(q.c.ar)}</div>`+q.opts.map((o,j)=>optBtn(o.en,j,o.id===q.c.id,a,true)).join('')}
+ else if(q.k==='en2ar'){body=`<div class="muted">شنو معنى:</div><div class="big en">${esc(q.c.en)}</div><div class="center">${spk(q.c.en)}</div>`+q.opts.map((o,j)=>optBtn(o.ar,j,o.id===q.c.id,a,false)).join('')}
+ else if(q.k==='listen'){const show=!canSpeak()||a!==null;body=`<div class="muted">🎧 سمع، واختار شنو سمعتي (فكر بالانجليزية!)</div><div class="center" style="margin:12px">${canSpeak()?`<button class="btn b" data-say="${esc(q.c.en)}">🔊 سمع</button> ${slow(q.c.en)}`:''}</div>${show?`<div class="center en muted">${esc(q.c.en)}</div>`:''}`+q.opts.map((o,j)=>optBtn(o.en,j,o.id===q.c.id,a,true)).join('')}
+ else if(q.k==='reply'){const corr=q.r[2];body=`<div class="muted">🎧 شي واحد قال ليك هادي. شنو تجاوبو؟</div><div class="center" style="margin:12px">${canSpeak()?`<button class="btn b" data-say="${esc(q.r[1])}">🔊 سمع</button> ${slow(q.r[1])}`:''}</div>${(!canSpeak()||a!==null)?`<div class="big en">${esc(q.r[1])}</div>`:`<div class="center"><button class="ib" data-act="reveal">👀 ورّيني الجملة</button></div>`}`+q.opts.map((o,j)=>optBtn(o,j,o===corr,a,true)).join('')}
+ else if(q.k==='type'){const audio=canSpeak()&&q.dict;body=audio?`<div class="muted">🎧 سمع وكتب شنو سمعتي</div><div class="center" style="margin:12px"><button class="btn b" data-say="${esc(q.c.en)}">🔊 سمع</button> ${slow(q.c.en)}</div>`:`<div class="muted">كتب بالانجليزية:</div><div class="big">${esc(q.c.ar)}</div>`;
+  body+=`<div class="row" style="flex-wrap:nowrap"><input type="text" id="ans" class="en" placeholder="Type in English…" value="${esc(v.txt)}" autocomplete="off" ${a!==null?'disabled':''}>${micBtn('ans')}</div>`;
+  if(a!==null)body+=`<div class="fb ${a}">${a==='ok'?'🎉 Perfect!':a==='close'?'👌 قريب! هاهي الصحيحة:':'💪 هاهي:'}<div class="en" style="font-size:1.1rem">${esc(q.c.en)}</div></div>`;
+  else body+=`<button class="btn b full" style="margin-top:10px" data-act="qtype">تحقق</button>`}
+ return backBar(v.title+' · '+(v.i+1)+'/'+v.qs.length)+`<div class="bar"><i style="width:${v.i/v.qs.length*100}%"></i></div><div class="card">${body}
+ ${a!==null?`<div class="row" style="justify-content:center;margin-top:8px">${q.c?spk(q.c.en):spk(q.r[2])}</div><button class="btn full g" style="margin-top:10px" data-act="qnext">التالي ←</button>`:''}</div>`}
+function optBtn(text,j,correct,a,en){let cls='';if(a!==null){if(correct)cls='right';else if(a===j)cls='wrong'}return `<button class="opt ${cls} ${en?'en':''}" data-opt="${j}" ${a!==null?'disabled':''}>${esc(text)}</button>`}
+function answerOpt(j){const v=view,q=v.qs[v.i];if(v.ans!==null)return;v.ans=j;let ok;if(q.k==='reply')ok=q.opts[j]===q.r[2];else ok=q.opts[j].id===q.c.id;if(ok){v.score++;S.xp+=2}if(q.c)srs(q.c.id,ok);if(!ok&&q.c)S.weak=[q.c.id,...S.weak.filter(x=>x!==q.c.id)].slice(0,20);save();render();if(ok&&q.k!=='reply'&&canSpeak())speak(q.c.en)}
+function answerType(){const v=view,q=v.qs[v.i];const val=($('#ans')||{}).value||'';v.txt=val;const r=grade(val,q.c.en);v.ans=r;if(r!=='no'){v.score++;S.xp+=3}srs(q.c.id,r!=='no');save();render()}
+
+function nightQuiz(){const L=learnedCards();if(L.length<3){toast('دير أول درس باش يكون عندك كويز');startLesson(S.g);return}
+ const weak=S.weak.map(id=>BYID[id]).filter(Boolean);const recent=L.filter(c=>(S.cards[c.id].s||0)>=S.g-2);
+ const chosen=[];const add=c=>{if(c&&!chosen.includes(c))chosen.push(c)};pick(recent,2).forEach(add);pick(weak,2).forEach(add);pick(L,8).forEach(c=>{if(chosen.length<5)add(c)});
+ const kinds=['listen','ar2en','type','listen','en2ar'];let qs=chosen.slice(0,5).map((c,i)=>{const q=mkQ(c,ALL.filter(x=>x.w<=curW()),kinds[i%kinds.length]);if(q.k==='type')q.dict=true;return q});
+ const rp=RP.filter(r=>r[0]<=curW());pick(rp,2).forEach(r=>qs.splice(Math.floor(Math.random()*qs.length),0,mkReply(r)));
+ runQuiz('كويز الليل',qs,()=>mark('q',5))}
+function startTest(gi){const w=Math.floor(gi/7);const wk=ALL.filter(c=>c.w===w);const old=ALL.filter(c=>c.w<w);
+ const cards=[...pick(wk,9),...pick(old,Math.min(3,old.length))];const kinds=['ar2en','listen','type','en2ar'];
+ const qs=shuffle(cards).map((c,i)=>{const q=mkQ(c,ALL.filter(x=>x.w<=w),kinds[i%4]);return q});
+ pick(RP.filter(r=>r[0]<=w),3).forEach(r=>qs.push(mkReply(r)));
+ runQuiz('🏆 اختبار السيمانة '+(w+1),qs,(score,n)=>{const pct=Math.round(score/n*100);S.tests[w]=Math.max(S.tests[w]||0,pct);addCards(wk);if(pct<60){wk.forEach(c=>{if(S.cards[c.id]){S.cards[c.id].due=today()}})}S.done[gi]=S.done[gi]||today();if(S.g<=gi)S.g=gi+1;mark('l',20);toast(pct>=60?'نجحتي فالاختبار 🎉':'الجمل ديال السيمانة رجعو للمراجعة')})}
+
+/* ============ REVIEW (SRS) ============ */
+function startReview(free){let ids=free?pick(Object.keys(S.cards),10):dueCards().sort((a,b)=>S.cards[a].due<S.cards[b].due?-1:1).slice(0,20);
+ if(!ids.length){if(!Object.keys(S.cards).length){toast('دير أول درس قبل');return}if(!free){mark('r');toast('ما كاين والو للمراجعة اليوم ✅');return}}
+ open({type:'review',ids,i:0,flip:false,ok:0,free,again:[]})}
+function vReview(){const v=view;if(v.i>=v.ids.length)return backBar('مراجعة')+`<div class="card center"><div style="font-size:3rem">🧠</div><h2>سالات المراجعة</h2><p>عرفتي ${v.ok} من ${v.ids.length}. هاكا كتبقى المعلومة فراسك!</p><button class="btn full g" data-act="rend">سالي ✓</button></div>`;
+ const c=BYID[v.ids[v.i]];const mode=(S.cards[c.id].b>=3&&canSpeak())?'listen':'ar';
+ return backBar('مراجعة '+(v.i+1)+'/'+v.ids.length)+`<div class="bar"><i style="width:${v.i/v.ids.length*100}%"></i></div><div class="card center">
+ ${mode==='ar'?`<div class="muted">قول بصوت عالي بالانجليزية:</div><div class="big">${esc(c.ar)}</div>`:`<div class="muted">🎧 سمع… واش فاهم شنو كتعني؟ قولها معاه</div><div style="margin:12px"><button class="btn b" data-say="${esc(c.en)}">🔊 سمع</button> ${slow(c.en)}</div>`}
+ ${v.flip?`<div class="phrase"><div class="e en">${esc(c.en)}</div>${c.pr?`<div class="pr">🗣 ${esc(c.pr)}</div>`:''}<div class="a">🇲🇦 ${esc(c.ar)}</div><div class="row" style="justify-content:center;margin-top:6px">${spk(c.en)}<a class="ib v" href="${yg(c.en)}" target="_blank" rel="noopener">🎬</a></div></div>
+ <div class="row"><button class="btn" style="flex:1;background:var(--r);box-shadow:0 4px 0 #B32A4E" data-act="rno">نسيتها 😅</button><button class="btn g" style="flex:1" data-act="rok">عرفتها 💪</button></div>`:
+ `<button class="btn full b" style="margin-top:12px" data-act="rflip">ورّيني الجواب</button>`}</div>`}
+
+/* ============ GAMES ============ */
+function vPlay(){const w=curW();const best=S.best||{};const n=learnedCards().length;
+ const games=[
+ ['g-listen','🎧','سمع وجاوب','شي واحد كيهضر معاك، ختار الجواب الصحيح — كلشي بالانجليزية',best.listen],
+ ['g-dict','✍️','سمع وكتب','سمع الجملة وكتبها (Dictation)',best.dict],
+ ['g-rush','⚡','60 ثانية','واش هاد الجواب مناسب؟ ✅ ولا ❌ — بالزربة!',best.rush],
+ ['g-order','🧩','رتب الجملة','رتب الكلمات باش تبني جملة صحيحة',best.order],
+ ['g-say','🗣️','قولها','قول الجملة بصوتك والتطبيق يشوف واش صحيحة',best.say],
+ ['pron','👅','نطق السيمانة',W[w].pr[0],null]];
+ return header()+`<h2>🎮 ألعاب</h2><div class="muted">العب ملي تكون خاوي وسط النهار. الألعاب كتستعمل غير الجمل لي قريتي (${n} جملة) + جمل على قد النيفو ديالك.</div>
+ ${games.map(g=>`<div class="step" data-act="${g[0]}"><div class="ic">${g[1]}</div><div class="tx"><b>${g[2]}</b><span class="muted">${esc(g[3])}</span></div>${g[4]!=null?`<span class="badge g">🏅 ${g[4]}</span>`:'◀'}</div>`).join('')}
+ ${!canSpeak()?'<div class="card muted">🔈 الصوت ما خدامش فهاد التيليفون. شوف واش «Google Text-to-Speech» مفعّل فالإعدادات.</div>':''}`}
+function needCards(n){const L=learnedCards();if(L.length<n){toast('قرا شي درس قبل 😉');return null}return L}
+function gListen(){const rp=pick(RP.filter(r=>r[0]<=curW()),8).map(mkReply);const L=learnedCards();pick(L,Math.min(4,L.length)).forEach(c=>rp.splice(Math.floor(Math.random()*rp.length),0,mkQ(c,ALL.filter(x=>x.w<=curW()),'listen')));runQuiz('🎧 سمع وجاوب',rp,(s)=>{best('listen',s);mark('g',3)})}
+function gDict(){const L=needCards(3);if(!L)return;if(!canSpeak()){toast('الصوت ما خدامش فهاد التيليفون');return}const qs=pick(L,8).map(c=>({k:'type',c,dict:true}));runQuiz('✍️ سمع وكتب',qs,(s)=>{best('dict',s);mark('g',3)})}
+function best(k,s){S.best=S.best||{};S.best[k]=Math.max(S.best[k]||0,s)}
+function gOrder(){const L=needCards(2);if(!L)return;const c=pick(L.filter(c=>firstAlt(c.en).split(' ').length>=3),8);if(!c.length){toast('مازال الجمل قصار، قرا شي درس آخر');return}open({type:'order',cs:c,i:0,picked:[],score:0,res:null})}
+const words=en=>firstAlt(en).replace(/[.!?,]/g,'').split(/\s+/).filter(Boolean);
+function vOrder(){const v=view;if(v.i>=v.cs.length)return backBar('🧩 رتب')+`<div class="card center"><div style="font-size:3rem">🧩</div><h2>${v.score}/${v.cs.length}</h2><button class="btn full g" data-act="oend">سالي ✓</button></div>`;
+ const c=v.cs[v.i];if(!v.ws)v.ws=shuffle(words(c.en).map((w,i)=>({w,i})));
+ return backBar('🧩 '+(v.i+1)+'/'+v.cs.length)+`<div class="card"><div class="muted center">رتب الكلمات (المعنى: ${esc(c.ar)})</div>
+ <div class="slot" style="margin:10px 0">${v.picked.map(k=>`<span class="word" data-un="${k}">${esc(v.ws[k].w)}</span>`).join('')}</div>
+ <div style="direction:ltr;text-align:center">${v.ws.map((x,k)=>`<span class="word ${v.picked.includes(k)?'used':''}" data-w="${k}">${esc(x.w)}</span>`).join('')}</div>
+ ${v.res?`<div class="fb ${v.res}">${v.res==='ok'?'🎉 Perfect!':'💪 الصحيحة:'}<div class="en">${esc(firstAlt(c.en))}</div></div><div class="row" style="justify-content:center;margin-top:6px">${spk(c.en)}</div><button class="btn full g" style="margin-top:10px" data-act="onext">التالي ←</button>`:
+ `<button class="btn full b" style="margin-top:12px" data-act="ocheck" ${v.picked.length<v.ws.length?'disabled':''}>تحقق</button>`}</div>`}
+function gRush(){const rp=RP.filter(r=>r[0]<=curW());open({type:'rush',pool:rp,t:60,score:0,q:null,started:false,fb:null,prev:(S.best&&S.best.rush)||0})}
+function rushNext(){const v=view;const r=v.pool[Math.floor(Math.random()*v.pool.length)];const good=Math.random()<.5;v.q={r,a:good?r[2]:r[2+1+Math.floor(Math.random()*2)],good}}
+function vRush(){const v=view;if(!v.started)return backBar('⚡ 60 ثانية')+`<div class="card center"><div style="font-size:3rem">⚡</div><p>غادي تشوف سؤال وجواب. واش الجواب <b>مناسب</b>؟ جاوب بالزربة — فكر بالانجليزية، ما عندكش الوقت باش تترجم 😉</p><button class="btn full" data-act="rgo">يالا!</button></div>`;
+ if(v.t<=0)return backBar('⚡')+`<div class="card center"><div style="font-size:3rem">🏁</div><h2>${v.score} نقطة</h2><p>${v.score>v.prev?'🏅 رقم قياسي جديد!':'الرقم القياسي ديالك: '+v.prev}</p><button class="btn full g" data-act="rushend">سالي ✓</button><button class="btn full ghost" style="margin-top:8px" data-act="g-rush">عاود</button></div>`;
+ return backBar('⚡')+`<div class="center"><span class="timer" id="tm">${v.t}</span> · <b>${v.score}</b> ⭐</div><div class="card"><div class="en muted">A:</div><div class="big en">${esc(v.q.r[1])}</div><div class="en muted">B:</div><div class="big en" style="color:var(--b)">${esc(v.q.a)}</div>
+ ${v.fb?`<div class="fb ${v.fb}">${v.fb==='ok'?'✅':'❌ '+esc(v.q.r[2])}</div>`:''}
+ <div class="row" style="margin-top:12px"><button class="btn" style="flex:1;background:var(--r);box-shadow:0 4px 0 #B32A4E" data-rush="0">❌ ماشي مناسب</button><button class="btn g" style="flex:1" data-rush="1">✅ مناسب</button></div></div>`}
+let rushTimer=null;
+function rushStart(){const v=view;v.started=true;v.t=60;v.score=0;rushNext();clearInterval(rushTimer);rushTimer=setInterval(()=>{if(!view||view.type!=='rush'){clearInterval(rushTimer);return}view.t--;if(view.t<=0){clearInterval(rushTimer);best('rush',view.score);save();render()}else{const e=$('#tm');if(e)e.textContent=view.t}},1000);render()}
+function rushAns(yes){const v=view;if(v.fb)return;const ok=(yes===1)===v.q.good;if(ok)v.score++;v.fb=ok?'ok':'no';render();setTimeout(()=>{if(view===v&&v.t>0){v.fb=null;rushNext();render()}},ok?450:1400)}
+function gSay(cards){const L=cards||needCards(1);if(!L)return;open({type:'say',cs:cards||pick(L,6),i:0,heard:'',res:null,score:0})}
+function vSay(){const v=view;if(v.i>=v.cs.length)return backBar('🗣️')+`<div class="card center"><div style="font-size:3rem">🗣️</div><h2>${v.score}/${v.cs.length}</h2><p>النطق كيتحسن بالتكرار. عاود غدا!</p><button class="btn full g" data-act="send">سالي ✓</button></div>`;
+ const c=v.cs[v.i];
+ return backBar('🗣️ قولها · '+(v.i+1)+'/'+v.cs.length)+`<div class="card center"><div class="muted">1) سمع 2) قولها بصوت عالي</div><div class="big en">${esc(firstAlt(c.en))}</div>${c.pr?`<div class="pr" style="color:var(--p)">🗣 ${esc(c.pr)}</div>`:''}<div class="muted">${esc(c.ar||'')}</div>
+ <div class="row" style="justify-content:center;margin:10px 0">${spk(c.en)}${slow(c.en)}<a class="ib v" href="${yg(c.en)}" target="_blank" rel="noopener">🎬 ناس حقيقيين</a></div>
+ ${dict?`<button class="btn p full" data-mic="say">${listening?'<span class="pulse">🎙️ كنسمع… (كليكي باش توقف)</span>':'🎤 كليكي وقولها'}</button>
+ ${v.heard?`<div class="card en" style="margin-top:10px">${esc(v.heard)}</div>`:''}
+ ${v.res?`<div class="fb ${v.res}">${v.res==='ok'?'🎉 نطق مزيان!':v.res==='close'?'👌 قريب! عاود مرة اخرى':'🔁 عاود: سمع مزيان وقولها بشوية'}</div><div class="row" style="margin-top:10px"><button class="btn ghost" style="flex:1" data-act="sretry">عاود</button><button class="btn g" style="flex:1" data-act="snext">التالي ←</button></div>`:''}`:
+ `<p class="muted">الميكرو ما خدامش (شوف الأذونات فالإعدادات). قولها 3 مرات بصوت عالي وقيّم راسك:</p><div class="row"><button class="btn ghost" style="flex:1" data-act="snext">مازال 😅</button><button class="btn g" style="flex:1" data-act="sself">قلتها مزيان 💪</button></div>`}</div>`}
+function sayHeard(text){const v=view;if(!v||v.type!=='say')return;v.heard=text.trim();v.res=grade(text,v.cs[v.i].en);if(v.res==='ok'&&!v.counted){v.counted=true;v.score++;S.xp+=2}render()}
+function startPron(){open({type:'pron'})}
+function vPron(){const w=curW();const P=W[w].pr;return backBar('👅 نطق السيمانة '+(w+1))+`<div class="card"><h2>${esc(P[0])}</h2><p>${bidi(P[1])}</p></div>
+ ${P[2].map(x=>`<div class="phrase row" style="justify-content:space-between"><span class="e en">${esc(x)}</span><span class="row">${spk(x)}${slow(x)}<a class="ib v" href="${yg(x)}" target="_blank" rel="noopener">🎬</a></span></div>`).join('')}
+ <button class="btn full p" data-act="pronsay">🗣️ تمرن: قولهم بصوتك</button>
+ <details class="card"><summary><b>النطق ديال السيمانات لي فاتو</b></summary>${W.slice(0,w).map((x,i)=>`<p><b>${i+1}. ${esc(x.pr[0])}</b><br><span class="muted">${esc(x.pr[1])}</span></p>`).join('')||'<p class="muted">هادي أول سيمانة</p>'}</details>`}
+
+/* ============ CHAT ============ */
+let chatBusy=false,chatCtl=null;
+const MODES={lesson:'📘 درس اليوم',quiz:'❓ سولني',free:'☕ هضرة حرة',role:'🎭 موقف'};
+function vChat(){const m=S.chat.msgs;
+ return header()+`<div class="row" style="justify-content:space-between"><h2>💬 Sam</h2><button class="btn ghost sm" data-act="cnew">🔄 جديدة</button></div>
+ <div class="chips">${Object.entries(MODES).map(([k,t])=>`<button class="chip ${S.chat.mode===k?'on':''}" data-mode="${k}">${t}</button>`).join('')}</div>
+ <div class="muted" style="margin:6px 0">${S.chat.mode==='quiz'?'Sam غادي يسولك على الجمل لي قريتي من قبل باش يتأكد بلي ما نسيتيهمش.':S.chat.mode==='role'?'موقف من الحياة: '+esc(W[curW()].t):S.chat.mode==='free'?'هضرو على أي حاجة بغيتي.':'تمرن على الجمل ديال آخر درس.'} جاوب بالانجليزية، حتى يلا غلطتي 😉</div>
+ ${!getKey()?`<div class="card" style="background:var(--p2)">🔑 Sam خاصو مفتاح مجاني (مرة وحدة). <button class="btn sm p" data-act="settings">حط المفتاح</button></div>`:''}
+ <div class="chat" id="chat">${m.length?m.map(msgHTML).join(''):`<div class="card center"><div style="font-size:2.5rem">👋</div><p>Sam هو صاحبك لي كيهضر غير بالانجليزية. كيصبر عليك وكيصحح ليك بالدارجة.</p><button class="btn" data-act="cstart">بدا الهضرة</button></div>`}</div>
+ <div class="compose"><textarea id="cin" class="en" placeholder="Write in English…" rows="1"></textarea>${micBtn('cin')}<button class="btn b" data-act="csend">➤</button></div>
+ <div class="row"><button class="btn ghost sm" data-act="chint">💡 شنو نقول؟</button></div>`}
+function msgHTML(x,i){if(x.role==='user')return `<div class="msg me en">${esc(x.content)}</div>`;
+ if(!x.content&&x.tip)return `<div class="msg tip">${esc(x.tip)}</div>`;
+ const out=`<div class="msg sam en"><span class="mt">${esc(x.content)||'<span class="pulse">…</span>'}</span><div class="tools">${spk(x.content)}<button class="ib" data-tr="${i}">🇲🇦 ترجم</button></div>${x.tr?`<div class="muted" dir="rtl" style="margin-top:6px">${esc(x.tr)}</div>`:''}</div>`;
+ return out+(x.tip?`<div class="msg tip">${esc(x.tip)}</div>`:'')}
+function afterChat(){const c=$('#chat');if(c&&S.chat.msgs.length)setTimeout(()=>scrollTo(0,document.body.scrollHeight),50);}
+function instr(){const w=curW();const L=learnedCards();const lastL=S.g>0?W[Math.floor((S.g-1)/7)].L[(S.g-1)%7]:null;
+ const known=L.slice(-45).map(c=>c.en+' = '+c.ar).join('\n');const weak=S.weak.map(id=>BYID[id]).filter(Boolean).slice(0,10).map(c=>c.en+' = '+c.ar).join('\n');
+ const tipLang=w<8?'Moroccan Darija written in Arabic script':'very simple English (add a Darija word in Arabic script only if needed)';
+ let goal='';const m=S.chat.mode;
+ if(m==='lesson')goal=lastL?`Practice the latest lesson "${lastL.t}": ${lastL.p.map(p=>p.en).join(' | ')}. Create a tiny real-life situation where he must use these phrases.`:'He is a total beginner. Practice greetings: Hi, How are you, What is your name, Where are you from.';
+ else if(m==='quiz')goal=`Quiz him to make sure he has NOT forgotten. Each turn, either (a) ask "How do you say '<Darija meaning>' in English?" using a phrase from the list, or (b) ask him a real question he must answer using a learned phrase. Prefer the weak phrases. After his answer, say if he was right in your tip, then ask the next one. Keep score playfully (e.g. "3/4!").`;
+ else if(m==='role')goal='Role-play: '+W[w].sc;
+ else goal='Free casual chat about his life, interests, football, food, Morocco, movies, anime. Stay at his level.';
+ return `You are "Sam", a warm, funny, patient English conversation partner for a Moroccan learner (his native language is Darija). His level: ${LEVELS[w]} (week ${w+1} of a 16-week communication course). He wants to learn to THINK in English and speak naturally.
+RULES:
+- Write ONLY in simple English at his level. ${w<4?'Use very short sentences (max 8 words) and only basic words.':w<8?'Short sentences, common words.':'Natural but clear English.'}
+- Max 2 short sentences, then ONE question so he must answer. Never long paragraphs. No lists. Emojis allowed sparingly.
+- Mostly reuse phrases he has learned.
+- Then write a line containing exactly --- and after it a short coaching tip in ${tipLang}: if his last message had a mistake, give the corrected English sentence and a 1-line explanation; if correct, praise him briefly and specifically. If he wrote in Darija/Arabic/French, show him how to say it in English and ask him to try. On the very first message, the tip explains in one line what to do.
+- Never translate your own English message in the tip (he has a translate button). Push him gently to answer in English.
+GOAL: ${goal}
+Phrases he learned (English = Darija):
+${known||'(none yet)'}
+${weak?'Phrases he often forgets (review these!):\n'+weak:''}`}
+async function chatCall(extraFirst){if(chatBusy)return;if(!getKey()){toast('حط المفتاح ديال Sam فالإعدادات');open({type:'settings'});return}
+ chatBusy=true;const msgs=S.chat.msgs;const hist=msgs.filter(x=>x.content).slice(-18).map(x=>({role:x.role,content:x.role==='assistant'?x.content+(x.tip?'\n---\n'+x.tip:''):x.content}));
+ if(hist.length&&hist[0].role==='user')hist.unshift({role:'assistant',content:'Hi! 😊'});
+ const input=[{role:'user',content:instr()+'\n\n(Start the conversation now with a short greeting and your first question.)'}];
+ hist.forEach(h=>{const l=input[input.length-1];if(l.role===h.role)l.content+='\n'+h.content;else input.push({...h})});
+ if(input[input.length-1].role!=='user')input.push({role:'user',content:'(continue)'});
+ const me={role:'assistant',content:'',tip:''};msgs.push(me);render();
+ try{chatCtl=new AbortController();const r=await sample(input,{cache:false,signal:chatCtl.signal,onText:({text})=>{const [a,b]=split(text);me.content=a;me.tip=b;const els=document.querySelectorAll('.msg.sam .mt');const el=els[els.length-1];if(el)el.textContent=a}});
+  const [a,b]=split(r.text||'');me.content=a||'…';me.tip=b}catch(e){me.content='';me.tip=e&&e.code==='rate_limited'?'⏳ Sam عيان شوية، عاود من بعد دقيقة.':e&&e.code==='bad_key'?'🔑 المفتاح ماشي صحيح. بدلو فالإعدادات.':e&&e.code==='no_key'?'🔑 حط المفتاح فالإعدادات.':'📶 تأكد من الانترنت وعاود.'}
+ if(S.chat.msgs.length>40)S.chat.msgs=S.chat.msgs.slice(-40);chatBusy=false;save();render()}
+function split(t){const i=t.indexOf('---');return i<0?[t.trim(),'']:[t.slice(0,i).trim(),t.slice(i+3).trim()]}
+function chatSend(){const el=$('#cin');const t=(el.value||'').trim();if(!t||chatBusy)return;S.chat.msgs.push({role:'user',content:t});S.chat.n=(S.chat.n||0)+1;el.value='';S.xp+=2;if(S.chat.msgs.filter(m=>m.role==='user').length>=1){const l=lg();l.cm=(l.cm||0)+1;if(l.cm>=5&&!l.c){l.c=1;S.xp+=10;toast('💬 هضرة اليوم ✓ (+10 ⭐)')}}save();chatCall()}
+async function chatHint(){if(!getKey()||chatBusy)return;const last=S.chat.msgs.filter(m=>m.role==='assistant').pop();if(!last){toast('بدا الهضرة قبل');return}
+ const tip={role:'assistant',content:'',tip:'💡 كنفكر…'};S.chat.msgs.push(tip);render();
+ try{const r=await sample(`A Moroccan English learner (level ${LEVELS[curW()]}) must reply to: "${last.content}". Give 2 very simple possible English replies at his level. Format exactly, one per line: "<English reply> — <meaning in Moroccan Darija, Arabic script>". Nothing else.`,{modelTier:'quick',cache:false});
+  S.chat.msgs.pop();S.chat.msgs.push({role:'assistant',content:'',tip:'💡 تقدر تقول:\n'+r.text.trim(),hint:true})}catch(e){S.chat.msgs.pop();toast('عاود من بعد')}render()}
+async function translate(i){const x=S.chat.msgs[i];if(!getKey()||!x||x.tr)return;x.tr='…';render();try{const r=await sample(`Translate into Moroccan Darija written in Arabic script. Reply with the translation only:\n${x.content}`,{modelTier:'quick'});x.tr=r.text.trim()}catch(e){x.tr=''}save();render()}
+
+/* ============ WATCH ============ */
+function vWatch(){const w=curW();return header()+`<h2>🎬 فرجة على قد النيفو ديالك</h2>
+ <div class="card" style="background:var(--b2)">📌 كيفاش تتفرج باش تتعلم:<br>1) شغل الترجمة <b>بالانجليزية</b> (CC) ماشي بالعربية.<br>2) ملي تسمع جملة قريتيها، وقف وعاودها بصوت عالي.<br>3) ما خاصكش تفهم كلشي — يلا فهمتي 50% راك مزيان!<br>4) كل جملة فالدروس فيها زر 🎬 كيوريك ناس حقيقيين كيقولوها.</div>
+ <div class="sec">⭐ السيمانة ${w+1} — ${esc(LEVELS[w])}</div>
+ ${W[w].v.map(x=>vid(x)).join('')}
+ <div class="sec">🔜 كيتزادو مع النيفو</div>
+ ${W.map((x,i)=>i<=w?'':`<div class="ls muted" style="cursor:default">السيمانة ${i+1}: ${x.v.map(v=>esc(v[0])).join(' · ')} 🔒</div>`).join('')}
+ <details class="card"><summary><b>السيمانات لي فاتو</b></summary>${W.slice(0,w).map((x,i)=>`<div class="sec">السيمانة ${i+1}</div>`+x.v.map(vid).join('')).join('')||'<p class="muted">مازال</p>'}</details>`}
+const vid=x=>`<a class="step" href="${yt(x[1])}" target="_blank" rel="noopener" style="text-decoration:none;color:inherit"><div class="ic">▶️</div><div class="tx"><b class="en">${esc(x[0])}</b><span class="muted">${esc(x[2])}</span></div><div>↗</div></a>`;
+
+/* ============ PLAN ============ */
+let openW=null;
+function vPlan(){const w=curW();if(openW===null)openW=w;
+ return header()+`<h2>🗺️ البرنامج: 16 سيمانة</h2>
+ <div class="card"><b>كيفاش خدام:</b><br>🌙 <b>كل نهار 21:00 (إجباري، ~45 دقيقة):</b> درس جديد (15د) ← مراجعة (10د) ← كويز سمع وجاوب (5د) ← هضرة مع Sam (10د).<br>☀️ <b>وسط النهار (اختياري):</b> ألعاب، نطق، فرجة، هضرة حرة.<br>🗓️ 6 دروس فالسيمانة + النهار 7 <b>اختبار</b>.<br>🧠 الجمل لي قريتي كيرجعو ليك بوحدهم (غدا، من بعد يومين، 4، 7، 15، 30 يوم) باش ما تنساهمش أبدا.</div>
+ <div class="card"><b>الأشهر:</b><br>1️⃣ الشهر 1: الأساسيات — تسلم، تعرف براسك، تسول، تحكي نهارك.<br>2️⃣ الشهر 2: الحياة اليومية — القهوة، الحانوت، الطريق، الماضي، الرأي.<br>3️⃣ الشهر 3: الهضرة الحقيقية — المستقبل، small talk، المواعيد، المشاكل.<br>4️⃣ الشهر 4: الثقة — الخدمة، القصص، الانجليزية الطبيعية، الاختبار النهائي.</div>
+ ${W.map((x,i)=>{const done=x.L.filter((_,d)=>S.done[i*7+d]).length;return `<div class="wk"><div class="hd" data-wk="${i}"><span>${i<w?'✅':i===w?'📍':'🔒'} ${i+1}. ${esc(x.t)}</span><span class="muted">${done}/6${S.tests[i]!=null?' · 🏆'+S.tests[i]+'%':''}</span></div>
+ ${openW===i?`<div class="bd"><div class="muted">🎯 ${esc(x.g)}</div>${x.L.map((L,d)=>`<div class="ls" data-les="${i*7+d}"><span>${S.done[i*7+d]?'✅':'▫️'} ${d+1}. ${esc(L.t)}</span><span>◀</span></div>`).join('')}<div class="ls" data-les="${i*7+6}"><span>${S.done[i*7+6]?'✅':'🏆'} 7. اختبار السيمانة</span><span>◀</span></div><div class="muted" style="margin-top:6px">👅 النطق: ${esc(x.pr[0])}</div></div>`:''}</div>`}).join('')}
+ <p class="muted center">تقدر تحل أي درس باش تراجعو. التقدم ديالك كيتسجل أوتوماتيكيا فالتيليفون.</p>
+ <button class="btn full ghost" data-act="settings">⚙️ الإعدادات (Sam، النسخة الاحتياطية)</button>`}
+
+function vSettings(){const v=view;return backBar('⚙️ الإعدادات')+`<div class="card"><h3>🔑 Sam — الذكاء الاصطناعي</h3>
+ <p>Sam كيخدم بـ Google Gemini. المفتاح <b>مجاني</b> وما خاصوش كارط بنكية. كيتحفظ غير فالتيليفون ديالك.</p>
+ <ol><li>حل <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a> ودخل بحساب Gmail ديالك.</li><li>كليكي على <b class="en">Create API key</b> وكوبي المفتاح.</li><li>لصقو هنا وكليكي «سجل».</li></ol>
+ <input type="text" id="key" class="en" placeholder="AIza…" value="${esc(getKey())}" autocomplete="off">
+ <button class="btn full p" style="margin-top:10px" data-act="savekey">سجل وجرب</button>${v.msg?`<div class="fb ok" style="background:var(--b2);color:var(--ink)">${esc(v.msg)}</div>`:''}</div>
+ <div class="card"><h3>💾 النسخة الاحتياطية</h3><p class="muted">التقدم ديالك محفوظ فالتيليفون. يلا بغيتي تبدل التيليفون، كوبي النسخة ورجعها فالجديد.</p>
+ <button class="btn ghost full" data-act="backup">📋 كوبي النسخة</button><textarea id="bk" class="en" rows="3" style="margin-top:8px" placeholder="لصق النسخة هنا باش ترجعها"></textarea><button class="btn ghost full" style="margin-top:8px" data-act="restore">♻️ رجع النسخة</button></div>
+ <div class="card muted">🎤 يلا الميكرو ما خدامش: الإعدادات ← التطبيقات ← Yalla English ← الأذونات ← الميكرو ← سمح.<br>🔊 يلا الصوت ما خدامش: تأكد بلي «Google Speech Services» مثبت ومفعّل.</div>`}
+
+/* ============ EVENTS ============ */
+function bindView(){}
+document.addEventListener('click',e=>{const t=e.target.closest('[data-tab],[data-act],[data-say],[data-slow],[data-opt],[data-mic],[data-mode],[data-tr],[data-wk],[data-les],[data-w],[data-un],[data-rush]');if(!t)return;
+ if(t.dataset.tab){go(t.dataset.tab);return}
+ if(t.dataset.say!=null){speak(t.dataset.say);return}
+ if(t.dataset.slow!=null){speak(t.dataset.slow,.65);return}
+ if(t.dataset.mic){micClick(t.dataset.mic,t);return}
+ if(t.dataset.opt!=null){answerOpt(+t.dataset.opt);return}
+ if(t.dataset.mode){S.chat.mode=t.dataset.mode;S.chat.msgs=[];save();render();return}
+ if(t.dataset.tr!=null){translate(+t.dataset.tr);return}
+ if(t.dataset.wk!=null){openW=openW===+t.dataset.wk?-1:+t.dataset.wk;render();return}
+ if(t.dataset.les!=null){startLesson(+t.dataset.les);return}
+ if(t.dataset.w!=null){const v=view;v.picked.push(+t.dataset.w);render();return}
+ if(t.dataset.un!=null){const v=view;if(v.res)return;v.picked=v.picked.filter(k=>k!==+t.dataset.un);render();return}
+ if(t.dataset.rush!=null){rushAns(+t.dataset.rush);return}
+ const a=t.dataset.act,v=view;
+ switch(a){
+ case 'back':clearInterval(rushTimer);back();break;
+ case 'lesson':startLesson(S.g);break;
+ case 'review':startReview(false);break;
+ case 'free':startReview(true);break;
+ case 'night':nightQuiz();break;
+ case 'chatgo':S.chat.mode=S.chat.mode||'lesson';go('chat');break;
+ case 'go-play':go('play');break;case 'go-watch':go('watch');break;
+ case 'pron':startPron();break;
+ case 'pronsay':{const P=W[curW()].pr[2].map((x,i)=>({id:'pr'+i,en:x,ar:'',pr:''}));gSay(P);break}
+ case 'lstart':v.i=0;v.ans='';v.res=null;render();break;
+ case 'lcheck':{const val=$('#ans').value;v.ans=val;v.res=grade(val,W[Math.floor(v.g/7)].L[v.g%7].p[v.i].en);render();if(v.res!=='no')speak(W[Math.floor(v.g/7)].L[v.g%7].p[v.i].en);break}
+ case 'lshow':v.ans=$('#ans').value;v.res='no';render();break;
+ case 'lnext':v.i++;v.ans='';v.res=null;render();break;
+ case 'lfinish':finishLesson();toast('+10 ⭐ برافو!');view=null;go('home');break;
+ case 'lchat':finishLesson();S.chat.mode='lesson';S.chat.msgs=[];save();go('chat');break;
+ case 'reveal':v.revealed=true;{const q=v.qs[v.i];const box=document.createElement('div');box.className='big en';box.textContent=q.r[1];t.replaceWith(box)}break;
+ case 'qtype':answerType();break;
+ case 'qnext':v.i++;v.ans=null;v.txt='';render();if(v.i<v.qs.length&&canSpeak()){const q=v.qs[v.i];if(q.k==='listen')speak(q.c.en);else if(q.k==='reply')speak(q.r[1]);else if(q.k==='type'&&q.dict)speak(q.c.en)}break;
+ case 'qend':{const cb=v.onEnd;const s=v.score,n=v.qs.length;view=null;cb&&cb(s,n);save();go('home');break}
+ case 'rflip':v.flip=true;render();speak(BYID[v.ids[v.i]].en);break;
+ case 'rok':srs(v.ids[v.i],true);v.ok++;S.xp+=1;v.i++;v.flip=false;save();render();break;
+ case 'rno':srs(v.ids[v.i],false);if(!v.again.includes(v.ids[v.i])){v.again.push(v.ids[v.i]);v.ids.push(v.ids[v.i])}S.weak=[v.ids[v.i],...S.weak.filter(x=>x!==v.ids[v.i])].slice(0,20);v.i++;v.flip=false;save();render();break;
+ case 'rend':if(!v.free)mark('r',3);else mark('g',2);view=null;go('home');break;
+ case 'g-listen':gListen();break;case 'g-dict':gDict();break;case 'g-order':gOrder();break;case 'g-rush':gRush();break;case 'g-say':gSay();break;
+ case 'ocheck':{const c=v.cs[v.i];const built=v.picked.map(k=>v.ws[k].w).join(' ');v.res=norm(built)===norm(firstAlt(c.en))?'ok':'no';if(v.res==='ok'){v.score++;S.xp+=2;speak(c.en)}render();break}
+ case 'onext':v.i++;v.picked=[];v.ws=null;v.res=null;render();break;
+ case 'oend':best('order',v.score);mark('g',3);view=null;go('play');break;
+ case 'rgo':rushStart();break;
+ case 'rushend':best('rush',v.score);mark('g',3);view=null;go('play');break;
+ case 'sretry':v.heard='';v.res=null;render();break;
+ case 'snext':v.i++;v.heard='';v.res=null;v.counted=false;render();break;
+ case 'sself':v.score++;v.i++;render();break;
+ case 'send':best('say',v.score);mark('g',3);view=null;go('play');break;
+ case 'cstart':chatCall();break;
+ case 'settings':open({type:'settings'});break;
+ case 'savekey':{const k=($('#key').value||'').trim();try{localStorage.setItem('yalla-gemini-key',k);localStorage.removeItem('yalla-model')}catch(e){}v&&(v.msg='⏳ كنجرب…');render();gemini('Say only: OK').then(()=>{view.msg='✅ خدام! Sam واجد يهضر معاك.';render()}).catch(e=>{view.msg=e&&e.code==='bad_key'?'❌ المفتاح ماشي صحيح':e&&e.code==='rate_limited'?'⏳ بزاف ديال الطلبات، عاود من بعد':'📶 ما قدرتش نتأكد، شوف الانترنت';render()});break}
+ case 'backup':{const t=JSON.stringify(S);navigator.clipboard.writeText(t).then(()=>toast('✅ تكوبيات! حطها فشي بلاصة آمنة')).catch(()=>{$('#bk').value=t;$('#bk').select()});break}
+ case 'restore':{try{const r=JSON.parse($('#bk').value);if(r&&r.v===1){S=Object.assign(fresh(),r);save();toast('✅ رجعات النسخة');go('home')}else toast('❌ النسخة ماشي صحيحة')}catch(e){toast('❌ النسخة ماشي صحيحة')}break}
+ case 'csend':chatSend();break;
+ case 'chint':chatHint();break;
+ case 'cnew':chatCtl&&chatCtl.abort();S.chat.msgs=[];chatBusy=false;save();render();break;
+ }});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){if(e.target.id==='cin'){e.preventDefault();chatSend()}else if(e.target.id==='ans'){e.preventDefault();const b=document.querySelector('[data-act=lcheck],[data-act=qtype]');b&&b.click()}}});
+
+/* ============ INIT (standalone app) ============ */
+// --- Speech recognition (mic) ---
+(function(){const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR)return;
+ let rec=null,cbF=[],cbP=[],cbS=[];
+ const emit=(a,x)=>a.forEach(f=>{try{f(x)}catch(e){}});
+ dict={start(){return new Promise((res,rej)=>{try{rec=new SR();rec.lang='en-US';rec.interimResults=true;rec.continuous=false;rec.maxAlternatives=1;
+  rec.onstart=()=>{emit(cbS,{state:'listening'});res()};
+  rec.onresult=e=>{let fin='',part='';for(let k=e.resultIndex;k<e.results.length;k++){const r=e.results[k];if(r.isFinal)fin+=r[0].transcript;else part+=r[0].transcript}if(part)emit(cbP,{text:part});if(fin)emit(cbF,{text:fin})};
+  rec.onerror=e=>{emit(cbS,{state:'idle',reason:e.error});if(e.error==='not-allowed'){toast('عطي الإذن للميكرو من الإعدادات ديال التيليفون')}};
+  rec.onend=()=>emit(cbS,{state:'idle',reason:'stopped'});rec.start()}catch(e){rej(e)}})},
+  stop(){try{rec&&rec.stop()}catch(e){}return Promise.resolve()},
+  onFinal(f){cbF.push(f)},onPartial(f){cbP.push(f)},onState(f){cbS.push(f)}};
+ dict.onPartial(({text})=>{if(micTarget==='say'){const v=view;if(v&&v.type==='say'){v.heard=text}}});
+ dict.onFinal(({text})=>{if(micTarget==='say'){sayHeard(((view&&view.heardFinal)||'')+' '+text);if(view)view.heardFinal=((view.heardFinal||'')+' '+text).trim();return}const el=document.getElementById(micTarget);if(el){el.value=(el.value?el.value+' ':'')+text.trim();el.focus()}});
+ dict.onState(({state})=>{listening=state==='listening';if(state==='listening'&&view&&view.type==='say'){view.heardFinal='';view.res=null}document.querySelectorAll('[data-mic]').forEach(b=>{if(b.dataset.mic!=='say')b.textContent=listening?'⏹️':'🎤'});if(view&&view.type==='say')render()});
+})();
+// load voices early (Android needs this)
+try{speechSynthesis.getVoices();speechSynthesis.onvoiceschanged=()=>speechSynthesis.getVoices()}catch(e){}
+// --- AI (Sam) through Google Gemini, free key stored only on this phone ---
+const MODELS=['gemini-flash-latest','gemini-3.5-flash','gemini-2.5-flash','gemini-flash-lite-latest'];
+function getKey(){try{return localStorage.getItem('yalla-gemini-key')||''}catch(e){return ''}}
+async function gemini(input,opts){const key=getKey();if(!key)throw {code:'no_key'};
+ let contents;if(typeof input==='string')contents=[{role:'user',parts:[{text:input}]}];else contents=input.map(m=>({role:m.role==='assistant'?'model':'user',parts:[{text:m.content}]}));
+ let order=MODELS.slice();const ok=localStorage.getItem('yalla-model');if(ok)order=[ok,...order.filter(m=>m!==ok)];
+ let lastErr=null;
+ for(const m of order){try{const r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+m+':generateContent',{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':key},body:JSON.stringify({contents}),signal:opts&&opts.signal});
+  if(r.status===404||r.status===400&&!(await r.clone().text()).includes('API key')){lastErr={code:'model'};continue}
+  if(r.status===429)throw {code:'rate_limited'};
+  if(r.status===400||r.status===401||r.status===403)throw {code:'bad_key'};
+  if(!r.ok){lastErr={code:'net'};continue}
+  const j=await r.json();const text=(j.candidates&&j.candidates[0]&&j.candidates[0].content&&j.candidates[0].content.parts||[]).map(p=>p.text||'').join('');
+  try{localStorage.setItem('yalla-model',m)}catch(e){}
+  opts&&opts.onText&&opts.onText({text});return {text}}
+  catch(e){if(e&&e.code&&e.code!=='model'&&e.code!=='net')throw e;if(e&&e.name==='AbortError')throw e;lastErr=e&&e.code?e:{code:'net'}}}
+ throw lastErr||{code:'net'}}
+sample=gemini;
+try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
+if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}))}
+render();
+</script>
+</body>
+</html>
