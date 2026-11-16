@@ -674,7 +674,7 @@ function go(t){tab=t;view=null;document.querySelectorAll('nav button').forEach(b
 function open(v){view=v;render();scrollTo(0,0)}
 function back(){view=null;render();scrollTo(0,0)}
 function render(){const a=$('#app');
- if(view){a.innerHTML=({lesson:vLesson,quiz:vQuiz,review:vReview,order:vOrder,rush:vRush,say:vSay,pron:vPron,settings:vSettings}[view.type])();bindView();return}
+ if(view){a.innerHTML=({lesson:vLesson,quiz:vQuiz,review:vReview,order:vOrder,rush:vRush,say:vSay,pron:vPron,settings:vSettings,call:vCall}[view.type])();bindView();return}
  a.innerHTML=({home:vHome,play:vPlay,chat:vChat,watch:vWatch,plan:vPlan}[tab])();if(tab==='chat')afterChat()}
 function header(){const w=curW();return `<div class="top"><div class="logo">Yalla <b>English</b></div><div class="pills"><span class="pill">🔥 ${streak()}</span><span class="pill">⭐ ${S.xp}</span></div></div>`}
 function backBar(title){return `<div class="top"><button class="btn ghost sm" data-act="back">→ رجوع</button><b>${title||''}</b><span></span></div>`}
@@ -849,6 +849,7 @@ let chatBusy=false,chatCtl=null;
 const MODES={lesson:'📘 درس اليوم',quiz:'❓ سولني',free:'☕ هضرة حرة',role:'🎭 موقف'};
 function vChat(){const m=S.chat.msgs;
  return header()+`<div class="row" style="justify-content:space-between"><h2>💬 Sam</h2><button class="btn ghost sm" data-act="cnew">🔄 جديدة</button></div>
+ <button class="btn full g" style="margin:6px 0 10px" data-act="call">📞 مكالمة صوتية مع Sam (هضر بصوتك)</button>
  <div class="chips">${Object.entries(MODES).map(([k,t])=>`<button class="chip ${S.chat.mode===k?'on':''}" data-mode="${k}">${t}</button>`).join('')}</div>
  <div class="muted" style="margin:6px 0">${S.chat.mode==='quiz'?'Sam غادي يسولك على الجمل لي قريتي من قبل باش يتأكد بلي ما نسيتيهمش.':S.chat.mode==='role'?'موقف من الحياة: '+esc(W[curW()].t):S.chat.mode==='free'?'هضرو على أي حاجة بغيتي.':'تمرن على الجمل ديال آخر درس.'} جاوب بالانجليزية، حتى يلا غلطتي 😉</div>
  
@@ -896,6 +897,47 @@ async function chatHint(){if(chatBusy)return;const last=S.chat.msgs.filter(m=>m.
  try{const r=await sample(`A Moroccan English learner (level ${LEVELS[curW()]}) must reply to: "${last.content}". Give 2 very simple possible English replies at his level. Format exactly, one per line: "<English reply> — <meaning in Moroccan Darija, Arabic script>". Nothing else.`,{modelTier:'quick',cache:false});
   S.chat.msgs.pop();S.chat.msgs.push({role:'assistant',content:'',tip:'💡 تقدر تقول:\n'+r.text.trim(),hint:true})}catch(e){S.chat.msgs.pop();toast('عاود من بعد')}render()}
 async function translate(i){const x=S.chat.msgs[i];if(!x||x.tr)return;x.tr='…';render();try{const r=await sample(`Translate into Moroccan Darija written in Arabic script. Reply with the translation only:\n${x.content}`,{modelTier:'quick'});x.tr=r.text.trim()}catch(e){x.tr=''}save();render()}
+
+
+/* ============ VOICE CALL WITH SAM ============ */
+function speakWait(text){return new Promise(res=>{let done=false;const fin=()=>{if(!done){done=true;res()}};
+ if(!('speechSynthesis' in window))return fin();try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(String(text).replace(/[*_#]/g,''));u.lang='en-US';u.rate=.9;
+ const vs=speechSynthesis.getVoices();const vv=vs.find(v=>/^en(-|_)US/i.test(v.lang))||vs.find(v=>/^en/i.test(v.lang));if(vv)u.voice=vv;
+ u.onend=fin;u.onerror=fin;speechSynthesis.speak(u);setTimeout(fin,Math.max(6000,String(text).length*120))}catch(e){fin()}})}
+function startCall(){if(!dict){toast('الميكرو ما خدامش فهاد التيليفون');return}open({type:'call',on:true,st:'think',heard:'',lines:[],miss:0});callTurn(null)}
+function callListen(){const v=view;if(!v||v.type!=='call'||!v.on)return;v.heard='';v.st='listen';micTarget='call';render();
+ try{dict.start().catch(()=>{if(view===v){v.st='tap';render()}})}catch(e){v.st='tap';render()}}
+function callState(state,reason){const v=view;if(!v||v.type!=='call'||!v.on)return;
+ if(state==='listening'){v.st='listen';const e=document.getElementById('callst');if(e)e.textContent='🎤 كنسمعك… هضر بالانجليزية';return}
+ if(state==='idle'&&v.st==='listen'){if((v.heard||'').trim()){v.miss=0;callTurn(v.heard.trim())}
+  else{v.miss=(v.miss||0)+1;if(v.miss<3&&reason!=='not-allowed')setTimeout(()=>callListen(),300);else{v.st='tap';render()}}}}
+async function callTurn(userText){const v=view;if(!v||v.type!=='call')return;
+ if(userText){v.lines.push({me:1,t:userText});S.chat.msgs.push({role:'user',content:userText});S.xp+=2;const l=lg();l.cm=(l.cm||0)+1;if(l.cm>=5&&!l.c){l.c=1;S.xp+=10;toast('💬 هضرة اليوم ✓ (+10 ⭐)')}}
+ v.st='think';render();
+ const msgs=S.chat.msgs;const hist=msgs.filter(x=>x.content).slice(-16).map(x=>({role:x.role,content:x.role==='assistant'?x.content+(x.tip?'\n---\n'+x.tip:''):x.content}));
+ if(hist.length&&hist[0].role==='user')hist.unshift({role:'assistant',content:'Hi! 😊'});
+ const VOICE='\n\nTHIS IS A SPOKEN PHONE CALL. He speaks with his voice (speech recognition may contain small errors; guess what he meant). Your English part will be read aloud: 1 or 2 very short, natural spoken sentences, no emojis, no lists, no symbols. Always end with one simple question. Still add the --- line and the short tip after it (shown on screen, not spoken).';
+ const input=[{role:'user',content:instr()+VOICE+'\n\n(Start the call now: greet him warmly and ask your first question.)'}];
+ hist.forEach(h=>{const last=input[input.length-1];if(last.role===h.role)last.content+='\n'+h.content;else input.push({...h})});
+ if(input[input.length-1].role!=='user')input.push({role:'user',content:'(continue)'});
+ try{const r=await sample(input,{cache:false,onWait:()=>{const e=document.getElementById('callst');if(e)e.textContent='⏳ Sam كيفكر… (لحظة)'}});
+  if(view!==v||!v.on)return;const [a,b]=split(r.text||'');S.chat.msgs.push({role:'assistant',content:a,tip:b});if(S.chat.msgs.length>40)S.chat.msgs=S.chat.msgs.slice(-40);
+  v.lines.push({t:a,tip:b});v.st='speak';save();render();await speakWait(a)}
+ catch(e){if(view!==v)return;v.lines.push({t:'',tip:'📶 Sam ما جاوبش. كليكي 🎤 وعاود قولها.'});v.st='tap';render();return}
+ if(view===v&&v.on)callListen()}
+function hangUp(){const v=view;if(v){v.on=false}try{dict&&dict.stop()}catch(e){}try{speechSynthesis.cancel()}catch(e){}micTarget=null;save();view=null;go('chat')}
+function vCall(){const v=view;const ST={listen:'🎤 كنسمعك… هضر بالانجليزية',think:'🤔 Sam كيفكر…',speak:'🔊 Sam كيهضر… سمع مزيان',tap:'كليكي على 🎤 ملي تكون واجد تهضر'};
+ const last=v.lines.slice(-6);
+ return backBar('📞 مكالمة مع Sam')+`<div class="card center" style="padding:22px 14px">
+ <div style="font-size:4.2rem;line-height:1" class="${v.st==='speak'||v.st==='listen'?'pulse':''}">${v.st==='listen'?'👂':v.st==='speak'?'🗣️':'🧑‍🏫'}</div>
+ <div id="callst" style="font-weight:800;margin-top:8px">${ST[v.st]||''}</div>
+ <div id="callheard" class="en muted" style="min-height:1.5em;margin-top:6px">${v.st==='listen'?esc(v.heard||''):''}</div>
+ <div class="row" style="justify-content:center;margin-top:14px;gap:12px">
+  <button class="btn b" data-act="calltalk" ${v.st==='think'||v.st==='speak'?'disabled':''}>🎤 هضر</button>
+  <button class="btn ghost" data-act="callrep">🔁 عاود</button>
+  <button class="btn" style="background:var(--r);box-shadow:0 4px 0 #B32A4E" data-act="hangup">📵 سالي</button></div>
+ <div class="muted" style="margin-top:10px;font-size:.85rem">هضر بشوية وبوضوح. ملي تسكت، Sam كيجاوبك بالصوت.</div></div>
+ <div class="chat">${last.map(x=>x.me?`<div class="msg me en">${esc(x.t)}</div>`:(x.t?`<div class="msg sam en">${esc(x.t)}</div>`:'')+(x.tip?`<div class="msg tip">${esc(x.tip)}</div>`:'')).join('')}</div>`}
 
 /* ============ WATCH ============ */
 function vWatch(){const w=curW();return header()+`<h2>🎬 فرجة على قد النيفو ديالك</h2>
@@ -946,7 +988,7 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-tab],[data
  if(t.dataset.place!=null){startPlace(+t.dataset.place,true);return}
  const a=t.dataset.act,v=view;
  switch(a){
- case 'back':clearInterval(rushTimer);back();break;
+ case 'back':clearInterval(rushTimer);if(v&&v.type==='call'){hangUp();break}back();break;
  case 'lesson':startLesson(S.g);break;
  case 'review':startReview(false);break;
  case 'free':startReview(true);break;
@@ -980,6 +1022,10 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-tab],[data
  case 'sself':v.score++;v.i++;render();break;
  case 'send':best('say',v.score);mark('g',3);view=null;go('play');break;
  case 'cstart':chatCall();break;
+ case 'call':startCall();break;
+ case 'calltalk':callListen();break;
+ case 'hangup':hangUp();break;
+ case 'callrep':{const l=[...v.lines].reverse().find(x=>!x.me&&x.t);if(l)speak(l.t);break}
  case 'place':startPlace(Math.floor(Math.min(S.g,TOTAL-1)/7));break;
  case 'noplace':S.placed=1;save();render();break;
  case 'settings':open({type:'settings'});break;
@@ -1004,9 +1050,9 @@ document.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){if(e.ta
   rec.onend=()=>emit(cbS,{state:'idle',reason:'stopped'});rec.start()}catch(e){rej(e)}})},
   stop(){try{rec&&rec.stop()}catch(e){}return Promise.resolve()},
   onFinal(f){cbF.push(f)},onPartial(f){cbP.push(f)},onState(f){cbS.push(f)}};
- dict.onPartial(({text})=>{if(micTarget==='say'){const v=view;if(v&&v.type==='say'){v.heard=text}}});
- dict.onFinal(({text})=>{if(micTarget==='say'){sayHeard(((view&&view.heardFinal)||'')+' '+text);if(view)view.heardFinal=((view.heardFinal||'')+' '+text).trim();return}const el=document.getElementById(micTarget);if(el){el.value=(el.value?el.value+' ':'')+text.trim();el.focus()}});
- dict.onState(({state})=>{listening=state==='listening';if(state==='listening'&&view&&view.type==='say'){view.heardFinal='';view.res=null}document.querySelectorAll('[data-mic]').forEach(b=>{if(b.dataset.mic!=='say')b.textContent=listening?'⏹️':'🎤'});if(view&&view.type==='say')render()});
+ dict.onPartial(({text})=>{if(micTarget==='call'){const e=document.getElementById('callheard');if(e&&view)e.textContent=((view.heard||'')+' '+text).trim();return}if(micTarget==='say'){const v=view;if(v&&v.type==='say'){v.heard=text}}});
+ dict.onFinal(({text})=>{if(micTarget==='call'){if(view&&view.type==='call'){view.heard=((view.heard||'')+' '+text).trim();const e=document.getElementById('callheard');if(e)e.textContent=view.heard}return}if(micTarget==='say'){sayHeard(((view&&view.heardFinal)||'')+' '+text);if(view)view.heardFinal=((view.heardFinal||'')+' '+text).trim();return}const el=document.getElementById(micTarget);if(el){el.value=(el.value?el.value+' ':'')+text.trim();el.focus()}});
+ dict.onState(({state,reason})=>{listening=state==='listening';if(micTarget==='call'){callState(state,reason);return}if(state==='listening'&&view&&view.type==='say'){view.heardFinal='';view.res=null}document.querySelectorAll('[data-mic]').forEach(b=>{if(b.dataset.mic!=='say')b.textContent=listening?'⏹️':'🎤'});if(view&&view.type==='say')render()});
 })();
 // load voices early (Android needs this)
 try{speechSynthesis.getVoices();speechSynthesis.onvoiceschanged=()=>speechSynthesis.getVoices()}catch(e){}
