@@ -886,8 +886,8 @@ async function chatCall(extraFirst){if(chatBusy)return;
  hist.forEach(h=>{const l=input[input.length-1];if(l.role===h.role)l.content+='\n'+h.content;else input.push({...h})});
  if(input[input.length-1].role!=='user')input.push({role:'user',content:'(continue)'});
  const me={role:'assistant',content:'',tip:''};msgs.push(me);render();
- try{chatCtl=new AbortController();const r=await sample(input,{cache:false,signal:chatCtl.signal,onText:({text})=>{const [a,b]=split(text);me.content=a;me.tip=b;const els=document.querySelectorAll('.msg.sam .mt');const el=els[els.length-1];if(el)el.textContent=a}});
-  const [a,b]=split(r.text||'');me.content=a||'…';me.tip=b}catch(e){me.content='';me.tip=e&&e.code==='rate_limited'?'⏳ Sam عيان شوية، عاود من بعد دقيقة.':'📶 Sam ما جاوبش. تأكد من الانترنت وعاود من بعد شوية.'}
+ try{chatCtl=new AbortController();const r=await sample(input,{cache:false,signal:chatCtl.signal,onWait:()=>{const els=document.querySelectorAll('.msg.sam .mt');const el=els[els.length-1];if(el&&!me.content)el.textContent='⏳ Sam كيفكر…'},onText:({text})=>{const [a,b]=split(text);me.content=a;me.tip=b;const els=document.querySelectorAll('.msg.sam .mt');const el=els[els.length-1];if(el)el.textContent=a}});
+  const [a,b]=split(r.text||'');me.content=a||'…';me.tip=b}catch(e){me.content='';me.tip=e&&e.code==='rate_limited'?(getKey()?'⏳ Sam عيان شوية، عاود من بعد دقيقة.':'⏳ Sam المجاني مزحوم دابا. باش ما يبقاش يوقع هاد المشكل، زيد المفتاح المجاني ديالك فـ ⚙️ الإعدادات (دقيقتين).'):'📶 Sam ما جاوبش. تأكد من الانترنت وعاود من بعد شوية.'}
  if(S.chat.msgs.length>40)S.chat.msgs=S.chat.msgs.slice(-40);chatBusy=false;save();render()}
 function split(t){const i=t.indexOf('---');return i<0?[t.trim(),'']:[t.slice(0,i).trim(),t.slice(i+3).trim()]}
 function chatSend(){const el=$('#cin');const t=(el.value||'').trim();if(!t||chatBusy)return;S.chat.msgs.push({role:'user',content:t});S.chat.n=(S.chat.n||0)+1;el.value='';S.xp+=2;if(S.chat.msgs.filter(m=>m.role==='user').length>=1){const l=lg();l.cm=(l.cm||0)+1;if(l.cm>=5&&!l.c){l.c=1;S.xp+=10;toast('💬 هضرة اليوم ✓ (+10 ⭐)')}}save();chatCall()}
@@ -919,9 +919,8 @@ function vPlan(){const w=curW();if(openW===null)openW=w;
  <button class="btn full ghost" data-act="settings">⚙️ الإعدادات (Sam، النسخة الاحتياطية)</button>`}
 
 function vSettings(){const v=view;return backBar('⚙️ الإعدادات')+`<div class="card"><h3>🤖 Sam — الذكاء الاصطناعي</h3>
- <p>✅ Sam خدام <b>بلا حساب وبلا مفتاح</b>. ما خاصك دير والو.</p>
- <details><summary class="muted">اختياري: يلا بغيتي Sam يولي أسرع وأذكى (مفتاح Google)</summary>
- <p class="muted">إلا عندك Gmail، تقدر تزيد مفتاح مجاني. ماشي ضروري.</p>
+ ${getKey()?'<p>✅ المفتاح ديالك مسجل. Sam خدام بالحصة ديالك بوحدك.</p>':'<p>Sam خدام بلا مفتاح، ولكن الخدمة المجانية مشتركة مع بزاف ديال الناس، وبعض المرات كتزحم. <b>باش يخدم ديما بلا توقف</b>، زيد المفتاح المجاني ديالك (فابور، بحساب Gmail ديالك):</p>'}
+ <details ${getKey()?'':'open'}><summary class="muted">🔑 المفتاح ديال Google (فابور)</summary>
  <ol><li>حل <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a> ودخل بحساب Gmail ديالك.</li><li>كليكي على <b class="en">Create API key</b> وكوبي المفتاح.</li><li>لصقو هنا وكليكي «سجل».</li></ol>
  <input type="text" id="key" class="en" placeholder="AIza…" value="${esc(getKey())}" autocomplete="off">
  <button class="btn full p" style="margin-top:10px" data-act="savekey">سجل وجرب</button></details>${v.msg?`<div class="fb ok" style="background:var(--b2);color:var(--ink)">${esc(v.msg)}</div>`:''}</div>
@@ -1029,11 +1028,17 @@ async function viaOpenAI(url,headers,model,input,opts){const r=await fetch(url,{
 const FREE=[
  (i,o)=>viaOpenAI('https://api.llm7.io/v1/chat/completions',{'Authorization':'Bearer unused'},'default',i,o),
  (i,o)=>viaOpenAI('https://text.pollinations.ai/openai',{},'openai',i,o)];
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 async function gemini(input,opts){let last=null;
  const chain=[viaGemini,...FREE];let pref=+(localStorage.getItem('yalla-prov')||0);
  const idx=[...chain.keys()];if(pref>0&&pref<chain.length){idx.splice(idx.indexOf(pref),1);idx.splice(1,0,pref)}
- for(const k of idx){try{const text=await chain[k](input,opts);if(k>0)try{localStorage.setItem('yalla-prov',k)}catch(e){};opts&&opts.onText&&opts.onText({text});return {text}}
-  catch(e){if(e&&e.name==='AbortError')throw e;if(e&&e.code==='bad_key'){last=e;continue}if(e&&e.code!=='skip')last=e&&e.code?e:{code:'net'}}}
+ // try every provider; if all are busy, wait quietly and try again (up to ~25s) instead of bothering the learner
+ const waits=[0,3000,7000,12000];
+ for(const w of waits){if(w){opts&&opts.onWait&&opts.onWait();await sleep(w)}if(opts&&opts.signal&&opts.signal.aborted)throw {name:'AbortError'};
+  let onlyBusy=true;
+  for(const k of idx){try{const text=await chain[k](input,opts);if(k>0)try{localStorage.setItem('yalla-prov',k)}catch(e){};opts&&opts.onText&&opts.onText({text});return {text}}
+   catch(e){if(e&&e.name==='AbortError')throw e;if(e&&e.code==='skip')continue;last=e&&e.code?e:{code:'net'};if(last.code!=='rate_limited')onlyBusy=onlyBusy&&false}}
+  if(!onlyBusy&&w>=3000)break}
  throw last||{code:'net'}}
 sample=gemini;
 try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
