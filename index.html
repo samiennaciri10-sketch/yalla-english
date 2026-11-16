@@ -674,7 +674,7 @@ function go(t){tab=t;view=null;document.querySelectorAll('nav button').forEach(b
 function open(v){view=v;render();scrollTo(0,0)}
 function back(){view=null;render();scrollTo(0,0)}
 function render(){const a=$('#app');
- if(view){a.innerHTML=({lesson:vLesson,quiz:vQuiz,review:vReview,order:vOrder,rush:vRush,say:vSay,pron:vPron,settings:vSettings,call:vCall}[view.type])();bindView();return}
+ if(view){a.innerHTML=({lesson:vLesson,quiz:vQuiz,review:vReview,order:vOrder,rush:vRush,say:vSay,pron:vPron,settings:vSettings,call:vCall,gptcopy:vGptCopy}[view.type])();bindView();return}
  a.innerHTML=({home:vHome,play:vPlay,chat:vChat,watch:vWatch,plan:vPlan}[tab])();if(tab==='chat')afterChat()}
 function header(){const w=curW();return `<div class="top"><div class="logo">Yalla <b>English</b></div><div class="pills"><span class="pill">🔥 ${streak()}</span><span class="pill">⭐ ${S.xp}</span></div></div>`}
 function backBar(title){return `<div class="top"><button class="btn ghost sm" data-act="back">→ رجوع</button><b>${title||''}</b><span></span></div>`}
@@ -850,6 +850,8 @@ const MODES={lesson:'📘 درس اليوم',quiz:'❓ سولني',free:'☕ ه�
 function vChat(){const m=S.chat.msgs;
  return header()+`<div class="row" style="justify-content:space-between"><h2>💬 Sam</h2><button class="btn ghost sm" data-act="cnew">🔄 جديدة</button></div>
  <button class="btn full g" style="margin:6px 0 10px" data-act="call">📞 مكالمة صوتية مع Sam (هضر بصوتك)</button>
+ <button class="btn full ghost" style="margin:0 0 10px" data-act="gpt">🟢 هضر بالصوت مع ChatGPT (الاشتراك ديالك)</button>
+ ${S.gptDay===today()&&!(lg().c)?`<button class="btn full g sm" style="margin:-4px 0 10px" data-act="gptdone">✅ هضرت مع ChatGPT اليوم</button>`:''}
  <div class="chips">${Object.entries(MODES).map(([k,t])=>`<button class="chip ${S.chat.mode===k?'on':''}" data-mode="${k}">${t}</button>`).join('')}</div>
  <div class="muted" style="margin:6px 0">${S.chat.mode==='quiz'?'Sam غادي يسولك على الجمل لي قريتي من قبل باش يتأكد بلي ما نسيتيهمش.':S.chat.mode==='role'?'موقف من الحياة: '+esc(W[curW()].t):S.chat.mode==='free'?'هضرو على أي حاجة بغيتي.':'تمرن على الجمل ديال آخر درس.'} جاوب بالانجليزية، حتى يلا غلطتي 😉</div>
  
@@ -899,6 +901,16 @@ async function chatHint(){if(chatBusy)return;const last=S.chat.msgs.filter(m=>m.
 async function translate(i){const x=S.chat.msgs[i];if(!x||x.tr)return;x.tr='…';render();try{const r=await sample(`Translate into Moroccan Darija written in Arabic script. Reply with the translation only:\n${x.content}`,{modelTier:'quick'});x.tr=r.text.trim()}catch(e){x.tr=''}save();render()}
 
 
+
+function gptPrompt(){const w=curW();const L=learnedCards();const lastL=S.g>0&&S.g<=TOTAL?W[Math.floor((S.g-1)/7)].L[(S.g-1)%7]:null;
+ const weak=S.weak.map(id=>BYID[id]).filter(Boolean).slice(0,8).map(c=>c.en);const recent=L.slice(-12).map(c=>c.en);
+ return `You are my English speaking partner and coach. I'm from Morocco (I speak Darija). My level: ${LEVELS[w]} — week ${w+1} of my 16-week English communication program. This week's topic: ${W[w].t} (${W[w].sc})
+Rules: speak slowly, use simple English at my level, short sentences, and always ask me ONE question so I keep talking. If I make a mistake, repeat my sentence correctly, then continue the conversation. If I don't understand, say it more simply. Don't speak Arabic unless I ask.
+${lastL?`Today's lesson: "${lastL.t}" — make me use these phrases: ${lastL.p.map(p=>p.en).join(' | ')}`:''}
+${recent.length?`Phrases I learned recently: ${recent.join(' | ')}`:''}
+${weak.length?`Phrases I often forget (quiz me on them): ${weak.join(' | ')}`:''}
+Let's start: greet me and ask your first question.`}
+function vGptCopy(){return backBar('ChatGPT')+`<div class="card"><p>كوبي هاد التعليمات، لصقها فـ ChatGPT، ومن بعد شعل الصوت 🎙️:</p><textarea class="en" rows="10" onclick="this.select()">${esc(view.t)}</textarea><a class="btn full g" style="margin-top:10px;text-decoration:none" href="https://chatgpt.com/" target="_blank" rel="noopener">حل ChatGPT ↗</a></div>`}
 /* ============ VOICE CALL WITH SAM ============ */
 function speakWait(text){return new Promise(res=>{let done=false;const fin=()=>{if(!done){done=true;res()}};
  if(!('speechSynthesis' in window))return fin();try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(String(text).replace(/[*_#]/g,''));u.lang='en-US';u.rate=.9;
@@ -1023,6 +1035,11 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-tab],[data
  case 'send':best('say',v.score);mark('g',3);view=null;go('play');break;
  case 'cstart':chatCall();break;
  case 'call':startCall();break;
+ case 'gpt':{const t=gptPrompt();S.gptDay=today();save();let copied=false;
+  try{navigator.clipboard.writeText(t).then(()=>{copied=true;toast('📋 تكوبيات! فـ ChatGPT: لصق ← صيفط ← شعل الصوت 🎙️')}).catch(()=>{})}catch(e){}
+  try{const A=document.createElement('a');A.href='https://chatgpt.com/';A.target='_blank';A.rel='noopener';document.body.appendChild(A);A.click();A.remove()}catch(e){}
+  render();setTimeout(()=>{if(!copied)open({type:'gptcopy',t})},1200);break}
+ case 'gptdone':{const l=lg();if(!l.c){l.c=1;S.xp+=10}save();toast('💬 هضرة اليوم ✓ (+10 ⭐)');render();break}
  case 'calltalk':callListen();break;
  case 'hangup':hangUp();break;
  case 'callrep':{const l=[...v.lines].reverse().find(x=>!x.me&&x.t);if(l)speak(l.t);break}
